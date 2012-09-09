@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Make the Train</title>
+    <title>Baldwin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Baldwin is a simple wrapper around the SEPTA \"Next to Arrive\" API to help you never miss your train.">
     <meta name="author" content="Aaron Ogle">
@@ -37,7 +37,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="#">Make the (SEPTA) Train</a>
+          <a class="brand" href="#">Baldwin (for SEPTA)</a>
 
           <p id="now" class="navbar-text pull-right">11:27 PM</p>
         </div>
@@ -45,49 +45,43 @@
     </div>
 
     <div class="container">
+    <div class="row">
+      <div class="span9">
+        <ol id="mytrips-list" class="unstyled">
+          <li class="well well-small">
+            <h2>Narberth to Market East</h2>
+            <ol class="unstyled">
+              <li class="alert alert-success alert-block">
+                <h4>Departs at 12:21 AM <span class="label label-success">On Time</span></h4>
+                Arrives at 12:45 AM on the Paoli/Thorndale Line
+              </li>
 
-      <ol id="mytrips-list" class="unstyled">
-        <li class="well well-small">
-          <h3>Narberth to Market East</h3>
-          <ol class="unstyled">
-            <li class="alert alert-success alert-block">
-              <h4>Departs at 12:21 AM <span class="label label-success">On Time</span></h4>
-              Arrives at 12:45 AM on the Paoli/Thorndale Line
-            </li>
+              <li class="alert alert-error alert-block">
+                <h4>Departs at 12:21 AM <span class="label label-important">6 Mins Late</span></h4>
+                Arrives at 12:45 AM on the Paoli/Thorndale Line
+              </li>
 
-            <li class="alert alert-error alert-block">
-              <h4>Departs at 12:21 AM <span class="label label-important">6 Mins Late</span></h4>
-              Arrives at 12:45 AM on the Paoli/Thorndale Line
-            </li>
-
-            <li class="alert alert-warning alert-block">
-              <h4>Departs at 12:21 AM <span class="label label-warning">2 Mins Late</span></h4>
-              Arrives at 12:45 AM on the Paoli/Thorndale Line
-            </li>
+              <li class="alert alert-warning alert-block">
+                <h4>Departs at 12:21 AM <span class="label label-warning">2 Mins Late</span></h4>
+                Arrives at 12:45 AM on the Paoli/Thorndale Line
+              </li>
 
 
-          </ol>
+            </ol>
 
-        </li>
-      </ol>
-
-      <h1>Add a Trip</h1>
-      <form class="form-horizontal">
-        <div class="control-group">
-          <label class="control-label" for="start-station">Start Station</label>
-          <div class="controls">
-            <input type="text" id="start-station" class="station" placeholder="Where are you?" data-provide="typeahead">
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="end-station">End Station</label>
-          <div class="controls">
-            <input type="password" id="end-station"class="station"  placeholder="Where are you going?" data-provide="typeahead">
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Add</button>
-      </form>
-
+          </li>
+        </ol>
+      </div>
+      <div class="span3">
+        <h2>Add a Trip</h2>
+        <form>
+          <label for="start-station">Start Station</label>
+          <input type="text" id="start-station" class="station span3" placeholder="Where are you?" data-provide="typeahead">
+          <label for="end-station">End Station</label>
+          <input type="password" id="end-station"class="station span3"  placeholder="Where are you going?" data-provide="typeahead">
+          <button type="submit" class="btn btn-primary btn-block">Add</button>
+        </form>
+      </div>
 
     </div> <!-- /container -->
 
