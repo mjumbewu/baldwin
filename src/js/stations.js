@@ -1,7 +1,7 @@
-var MakeTheTrain = MakeTheTrain || {};
+var Baldwin = Baldwin || {};
 
-(function(M, $){
-  M.stations = [
+(function(B, $){
+  B.stations = [
     '30th Street Station',
 
     '49th St',
@@ -184,4 +184,4 @@ var MakeTheTrain = MakeTheTrain || {};
   ];
 
 
-})(MakeTheTrain, jQuery);
+})(Baldwin, jQuery);
