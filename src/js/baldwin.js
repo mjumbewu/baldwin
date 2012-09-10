@@ -26,6 +26,8 @@ var Baldwin = Baldwin || {};
 
       this.routeViews = {};
 
+      this.$now = $('#now');
+
       this.noRoutesTemplate = _.template(
         '<li class="alert alert-block alert-info">Add some routes to see the upcoming trips!</li>'
       );
@@ -33,6 +35,9 @@ var Baldwin = Baldwin || {};
     render: function(){
       var self = this;
       this.routeViews = {};
+
+      // Set the time
+      this.$now.text(moment().format('h:mm A'));
 
       if (this.collection.size() === 0) {
         this.$el.html(this.noRoutesTemplate());
