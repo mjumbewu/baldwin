@@ -4,9 +4,12 @@
   <head>
     <meta charset="utf-8">
     <title>Baldwin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Baldwin is a simple wrapper around the SEPTA \"Next to Arrive\" API to help you never miss your train.">
     <meta name="author" content="Aaron Ogle">
+
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
     <!-- Le styles -->
     <link href="lib/bootstrap-2.1.1/css/bootstrap.min.css" rel="stylesheet">
@@ -16,6 +19,17 @@
       }
 
       #route-list .label { float: right; }
+
+      .alert {
+        padding: 8px 14px;
+      }
+
+      @media (max-width: 480px) {
+        .arrival {
+          display: block;
+          font-size: 0.8em;
+        }
+      }
     </style>
     <link href="lib/bootstrap-2.1.1/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -49,7 +63,7 @@
         <ol id="route-list" class="unstyled"></ol>
       </div>
       <div class="span3">
-        <h2>Add a Route</h2>
+        <h4>Add a Route</h4>
         <form id="add-route">
           <label for="start-station">Start Station</label>
           <input type="text" id="start-station" name="start" class="station span3" placeholder="Where are you?" data-provide="typeahead">
