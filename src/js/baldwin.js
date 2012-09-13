@@ -73,7 +73,7 @@ var Baldwin = Baldwin || {};
             'Departs at {{ orig_departure_time }}' +
             '<span class="label {{ status_label_class }}">{{ orig_delay }}</span>' +
           '</strong> ' +
-          '<span class="arrival">and arrives at {{ orig_arrival_time }} on the {{ orig_line }} Line' +
+          '<span class="arrival">Arrives at {{ orig_arrival_time }} on the {{ orig_line }} Line' +
         '</li>'
       );
 
