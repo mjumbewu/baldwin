@@ -62,15 +62,18 @@ var Baldwin = Baldwin || {};
       this.routeTemplate = _.template(
         '<li class="well well-small">' +
           '<button type="button" class="close remove-route">&times;</button>' +
-          '<h2>{{ start }} to {{ end }}</h2>' +
+          '<h4>{{ start }} to {{ end }}</h4>' +
           '<ol class="unstyled trip-list"></ol>' +
         '</li>'
       );
 
       this.tripTemplate = _.template(
         '<li class="alert alert-block {{ status_alert_class }}">' +
-          '<h4>Departs at {{ orig_departure_time }} <span class="label {{ status_label_class }}">{{ orig_delay }}</span></h4>' +
-          'Arrives at {{ orig_arrival_time }} on the {{ orig_line }} Line' +
+          '<strong class="departure">' +
+            'Departs at {{ orig_departure_time }}' +
+            '<span class="label {{ status_label_class }}">{{ orig_delay }}</span>' +
+          '</strong> ' +
+          '<span class="arrival">and arrives at {{ orig_arrival_time }} on the {{ orig_line }} Line' +
         '</li>'
       );
 

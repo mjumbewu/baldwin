@@ -19,6 +19,17 @@
       }
 
       #route-list .label { float: right; }
+
+      .alert {
+        padding: 8px 14px;
+      }
+
+      @media (max-width: 480px) {
+        .arrival {
+          display: block;
+          font-size: 0.8em;
+        }
+      }
     </style>
     <link href="lib/bootstrap-2.1.1/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -52,7 +63,7 @@
         <ol id="route-list" class="unstyled"></ol>
       </div>
       <div class="span3">
-        <h2>Add a Route</h2>
+        <h4>Add a Route</h4>
         <form id="add-route">
           <label for="start-station">Start Station</label>
           <input type="text" id="start-station" name="start" class="station span3" placeholder="Where are you?" data-provide="typeahead">
