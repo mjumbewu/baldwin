@@ -26,8 +26,6 @@ var Baldwin = Baldwin || {};
 
       this.routeViews = {};
 
-      this.$now = $('#now');
-
       this.noRoutesTemplate = _.template(
         '<li class="alert alert-block alert-info">Add some routes to see the upcoming trips!</li>'
       );
@@ -35,9 +33,6 @@ var Baldwin = Baldwin || {};
     render: function(){
       var self = this;
       this.routeViews = {};
-
-      // Set the time
-      this.$now.text(moment().format('h:mm A'));
 
       if (this.collection.size() === 0) {
         this.$el.html(this.noRoutesTemplate());
@@ -81,8 +76,9 @@ var Baldwin = Baldwin || {};
         '<li class="alert alert-block alert-info">{{ message }}</li>'
       );
 
-      setInterval(_.bind(this.renderTrips, this), 30000);
+      this.$now = $('#now');
 
+      setInterval(_.bind(this.renderTrips, this), 30000);
     },
 
     render: function() {
@@ -94,6 +90,10 @@ var Baldwin = Baldwin || {};
 
     renderTrips: function() {
       var self = this;
+
+      // Set the time
+      this.$now.text(moment().format('h:mm A'));
+
       $.ajax({
         url: 'http://www3.septa.org/hackathon/NextToArrive/',
         data: {
