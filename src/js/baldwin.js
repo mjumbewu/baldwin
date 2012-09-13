@@ -80,6 +80,9 @@ var Baldwin = Baldwin || {};
       this.messageTemplate = _.template(
         '<li class="alert alert-block alert-info">{{ message }}</li>'
       );
+
+      setInterval(_.bind(this.renderTrips, this), 30000);
+
     },
 
     render: function() {
@@ -101,9 +104,12 @@ var Baldwin = Baldwin || {};
         dataType: 'jsonp',
         success: function(trips){
           if (trips.length > 0) {
+            var html = '';
             _.each(trips, function(trip) {
-              self.renderTrip(trip);
+              html += self.renderTrip(trip);
             });
+
+            self.$('.trip-list').html(html);
           } else {
             self.renderMessage('Sorry, no upcoming trips were found.');
           }
@@ -129,8 +135,7 @@ var Baldwin = Baldwin || {};
         data.status_label_class = 'label-success';
       }
 
-      this.$('.trip-list').append(this.tripTemplate(data));
-
+      return this.tripTemplate(data);
     },
     renderMessage: function(message) {
       this.$el.html(this.messageTemplate({
