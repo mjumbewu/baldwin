@@ -57,7 +57,7 @@ var Baldwin = Baldwin || {};
       this.routeTemplate = _.template(
         '<li class="well well-small">' +
           '<button type="button" class="close remove-route">&times;</button>' +
-          '<h4>{{ start }} to {{ end }}</h4>' +
+          '<h4>{{ start.name }} to {{ end.name }}</h4>' +
           '<ol class="unstyled trip-list"></ol>' +
         '</li>'
       );
@@ -97,8 +97,8 @@ var Baldwin = Baldwin || {};
       $.ajax({
         url: 'http://www3.septa.org/hackathon/NextToArrive/',
         data: {
-          req1: this.model.get('start'),
-          req2: this.model.get('end'),
+          req1: this.model.get('start').name,
+          req2: this.model.get('end').name,
           req3: 3
         },
         dataType: 'jsonp',
@@ -169,8 +169,13 @@ var Baldwin = Baldwin || {};
 
     addRoute: function(evt) {
       evt.preventDefault();
-      var attrs = this.getAttrs();
-      this.collection.create(attrs);
+      var formAttrs = this.getAttrs(),
+          data = {
+            start: _.find(B.stations, function(s) { return s.name === formAttrs.start; }),
+            end:   _.find(B.stations, function(s) { return s.name === formAttrs.end; })
+          };
+
+      this.collection.create(data);
     }
   });
 
@@ -186,5 +191,5 @@ var Baldwin = Baldwin || {};
 
   routeCollection.fetch();
 
-  $('.station').typeahead({source: B.stations});
+  $('.station').typeahead({source: _.pluck(B.stations, 'name') });
 })(Baldwin, jQuery);
