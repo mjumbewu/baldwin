@@ -25,8 +25,6 @@ var Baldwin = Baldwin || {};
     initialize: function() {
       // Get the current location
       navigator.geolocation.getCurrentPosition(_.bind(this.setPosition, this));
-      // Watch for changes to my current location
-      this.watchId = navigator.geolocation.watchPosition(_.bind(this.setPosition, this));
     },
 
     comparator: function(route) {
