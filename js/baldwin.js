@@ -8,7 +8,44 @@ var Baldwin = Baldwin || {};
 
   // Collection for all of the trips (start and end stations)
   B.RouteList = Backbone.Collection.extend({
-    localStorage: new Store('baldwin-route-list')
+    localStorage: new Store('baldwin-route-list'),
+
+    setPosition: function(position) {
+      var p = {
+        lat: parseFloat(position.coords.latitude.toFixed(4)),
+        lng: parseFloat(position.coords.longitude.toFixed(4))
+      };
+
+      if (!_.isEqual(this.position, p)) {
+        this.position = p;
+        this.sort();
+      }
+    },
+
+    initialize: function() {
+      // Get the current location
+      navigator.geolocation.getCurrentPosition(_.bind(this.setPosition, this));
+      // Watch for changes to my current location
+      this.watchId = navigator.geolocation.watchPosition(_.bind(this.setPosition, this));
+    },
+
+    comparator: function(route) {
+      var aSq, bSq, c;
+
+      // If current location has been set, sort the closest start station
+      // to the top.
+      if (this.position) {
+        // Thanks Pythagoras!
+        aSq = Math.pow(this.position.lat - route.get('start').lat, 2),
+        bSq = Math.pow(this.position.lng - route.get('start').lng, 2);
+        c = Math.sqrt(aSq + bSq);
+
+        return c;
+      } else {
+        // Otherwise, use the default order
+        return 0;
+      }
+    }
   });
 
   // View for a list of trips
@@ -57,7 +94,7 @@ var Baldwin = Baldwin || {};
       this.routeTemplate = _.template(
         '<li class="well well-small">' +
           '<button type="button" class="close remove-route">&times;</button>' +
-          '<h4>{{ start }} to {{ end }}</h4>' +
+          '<h4>{{ start.name }} to {{ end.name }}</h4>' +
           '<ol class="unstyled trip-list"></ol>' +
         '</li>'
       );
@@ -97,8 +134,8 @@ var Baldwin = Baldwin || {};
       $.ajax({
         url: 'http://www3.septa.org/hackathon/NextToArrive/',
         data: {
-          req1: this.model.get('start'),
-          req2: this.model.get('end'),
+          req1: this.model.get('start').name,
+          req2: this.model.get('end').name,
           req3: 3
         },
         dataType: 'jsonp',
@@ -169,8 +206,13 @@ var Baldwin = Baldwin || {};
 
     addRoute: function(evt) {
       evt.preventDefault();
-      var attrs = this.getAttrs();
-      this.collection.create(attrs);
+      var formAttrs = this.getAttrs(),
+          data = {
+            start: _.find(B.stations, function(s) { return s.name === formAttrs.start; }),
+            end:   _.find(B.stations, function(s) { return s.name === formAttrs.end; })
+          };
+
+      this.collection.create(data);
     }
   });
 
@@ -186,5 +228,5 @@ var Baldwin = Baldwin || {};
 
   routeCollection.fetch();
 
-  $('.station').typeahead({source: B.stations});
+  $('.station').typeahead({source: _.pluck(B.stations, 'name') });
 })(Baldwin, jQuery);
