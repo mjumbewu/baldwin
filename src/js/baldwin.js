@@ -173,7 +173,7 @@ var Baldwin = Baldwin || {};
       return this.tripTemplate(data);
     },
     renderMessage: function(message) {
-      this.$el.html(this.messageTemplate({
+      this.$('.trip-list').html(this.messageTemplate({
         message: message
       }));
     },
