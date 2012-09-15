@@ -206,12 +206,17 @@ var Baldwin = Baldwin || {};
 
     addRoute: function(evt) {
       evt.preventDefault();
+
       var formAttrs = this.getAttrs(),
           data = {
             start: _.find(B.stations, function(s) { return s.name === formAttrs.start; }),
             end:   _.find(B.stations, function(s) { return s.name === formAttrs.end; })
           };
 
+      // Reset the form
+      this.el.reset();
+
+      // Save the route to local storage
       this.collection.create(data);
     }
   });
