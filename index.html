@@ -24,12 +24,16 @@
         padding: 8px;
       }
 
-      .arrival {
+      small {
         font-size: 0.8em;
       }
 
+      small.connection {
+        display: block;
+      }
+
       @media (max-width: 480px) {
-        .arrival {
+        small.arrival {
           display: block;
           font-size: 0.8em;
         }
@@ -47,10 +51,44 @@
     <link rel="apple-touch-icon" sizes="114x114" href="ico/SEPTA_logo_1970s_114.png">
     <link rel="apple-touch-icon" sizes="72x72" href="ico/SEPTA_logo_1970s_72.png">
     <link rel="apple-touch-icon" href="ico/SEPTA_logo_1970s_57.png">
+
+    <script id="no-route-template" type="text/html">
+      <li class="alert alert-block alert-info">Add some routes to see the upcoming trips!</li>
+    </script>
+
+    <script id="route-template" type="text/html">
+      <li class="well well-small">
+        <button type="button" class="close remove-route">&times;</button>
+        <h4>{{ start.name }} to {{ end.name }}</h4>
+        <ol class="unstyled trip-list"></ol>
+      </li>
+    </script>
+
+    <script id="trip-template" type="text/html">
+      <li class="alert alert-block {{ orig_alert_class }}">
+        <strong class="departure">
+          Departs at {{ orig_departure_time }}
+          <span class="label {{ orig_label_class }}">{{ orig_delay }}</span>
+        </strong>
+        <small class="arrival">Arrives at {{ orig_arrival_time }} on the {{ orig_line }} Line</small>
+        {{#Connection}}
+        <small class="connection">=== Connect at <strong>{{ Connection }}</strong> ===</small>
+        <strong class="departure">
+          Departs at {{ term_depart_time }}
+          <span class="label {{ term_label_class }}">{{ term_delay }}</span>
+        </strong>
+        <small class="arrival">Arrives at {{ term_arrival_time }} on the {{ term_line }} Line</small>
+        {{/Connection}}
+      </li>
+    </script>
+
+    <script id="message-template" type="text/html">
+      <li class="alert alert-block alert-info">{{ message }}</li>
+    </script>
+
   </head>
 
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -85,6 +123,8 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.0/backbone.localStorage-min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.0/moment.min.js"></script>
     <script src="lib/bootstrap-2.1.1/js/bootstrap.min.js"></script>
+    <script src="lib/ICanHaz-0.10.min.js"></script>
+
     <script src="js/stations.js"></script>
     <script src="js/baldwin.js"></script>
   </body>

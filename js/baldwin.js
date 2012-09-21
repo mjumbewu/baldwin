@@ -1,11 +1,6 @@
 var Baldwin = Baldwin || {};
 
 (function(B, $){
-  // Mustache style templates with underscore (one less dependency)
-  _.templateSettings = {
-    interpolate : /\{\{(.+?)\}\}/g
-  };
-
   // Collection for all of the trips (start and end stations)
   B.RouteList = Backbone.Collection.extend({
     localStorage: new Store('baldwin-route-list'),
@@ -60,22 +55,18 @@ var Baldwin = Baldwin || {};
       this.collection.on('remove', this.render, this);
 
       this.routeViews = {};
-
-      this.noRoutesTemplate = _.template(
-        '<li class="alert alert-block alert-info">Add some routes to see the upcoming trips!</li>'
-      );
     },
     render: function(){
       var self = this;
       this.routeViews = {};
 
       if (this.collection.size() === 0) {
-        this.$el.html(this.noRoutesTemplate());
+        this.$el.html(ich['no-routes-template']());
       } else {
         this.$el.empty();
         this.collection.each(function(model){
           self.routeViews[model.cid] = new B.RouteView({ model: model });
-          self.$el.append(self.routeViews[model.cid].render().el);
+          self.$el.append(self.routeViews[model.cid].render().$el);
         });
       }
 
@@ -89,35 +80,12 @@ var Baldwin = Baldwin || {};
     },
 
     initialize: function() {
-      this.routeTemplate = _.template(
-        '<li class="well well-small">' +
-          '<button type="button" class="close remove-route">&times;</button>' +
-          '<h4>{{ start.name }} to {{ end.name }}</h4>' +
-          '<ol class="unstyled trip-list"></ol>' +
-        '</li>'
-      );
-
-      this.tripTemplate = _.template(
-        '<li class="alert alert-block {{ status_alert_class }}">' +
-          '<strong class="departure">' +
-            'Departs at {{ orig_departure_time }}' +
-            '<span class="label {{ status_label_class }}">{{ orig_delay }}</span>' +
-          '</strong> ' +
-          '<span class="arrival">Arrives at {{ orig_arrival_time }} on the {{ orig_line }} Line' +
-        '</li>'
-      );
-
-      this.messageTemplate = _.template(
-        '<li class="alert alert-block alert-info">{{ message }}</li>'
-      );
-
       this.$now = $('#now');
-
       setInterval(_.bind(this.renderTrips, this), 30000);
     },
 
     render: function() {
-      this.$el.html(this.routeTemplate(this.model.toJSON()));
+      this.$el.html(ich['route-template'](this.model.toJSON()));
       this.renderTrips();
 
       return this;
@@ -138,13 +106,12 @@ var Baldwin = Baldwin || {};
         },
         dataType: 'jsonp',
         success: function(trips){
+          self.$('.trip-list').empty();
           if (trips.length > 0) {
-            var html = '';
             _.each(trips, function(trip) {
-              html += self.renderTrip(trip);
+              var $trip = self.renderTrip(trip);
+              self.$('.trip-list').append($trip);
             });
-
-            self.$('.trip-list').html(html);
           } else {
             self.renderMessage('Sorry, no upcoming trips were found.');
           }
@@ -157,23 +124,32 @@ var Baldwin = Baldwin || {};
     },
     renderTrip: function(trip) {
       var data = _.extend({}, trip),
-          minsLate = parseInt(data.orig_delay, 10);
+          origDelay = parseInt(data.orig_delay, 10),
+          termDelay = parseInt(data.term_delay, 10);
 
-      if (minsLate > 0 && minsLate <= 5) {
-        data.status_alert_class = '';
-        data.status_label_class = 'label-warning';
-      } else if (minsLate > 5) {
-        data.status_alert_class = 'alert-error';
-        data.status_label_class = 'label-important';
+      if (origDelay > 0 && origDelay <= 5) {
+        data.orig_alert_class = '';
+        data.orig_label_class = 'label-warning';
+      } else if (origDelay > 5) {
+        data.orig_alert_class = 'alert-error';
+        data.orig_label_class = 'label-important';
       } else {
-        data.status_alert_class = 'alert-success';
-        data.status_label_class = 'label-success';
+        data.orig_alert_class = 'alert-success';
+        data.orig_label_class = 'label-success';
       }
 
-      return this.tripTemplate(data);
+      if (termDelay > 0 && termDelay <= 5) {
+        data.term_label_class = 'label-warning';
+      } else if (termDelay > 5) {
+        data.term_label_class = 'label-important';
+      } else {
+        data.term_label_class = 'label-success';
+      }
+
+      return ich['trip-template'](data);
     },
     renderMessage: function(message) {
-      this.$('.trip-list').html(this.messageTemplate({
+      this.$('.trip-list').html(ich['message-template']({
         message: message
       }));
     },
@@ -229,7 +205,10 @@ var Baldwin = Baldwin || {};
         collection: routeCollection
       });
 
-  routeCollection.fetch();
+
+  $(function(){
+    routeCollection.fetch();
+  });
 
   $('.station').typeahead({source: _.pluck(B.stations, 'name') });
 })(Baldwin, jQuery);
