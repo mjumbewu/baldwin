@@ -24,12 +24,16 @@
         padding: 8px;
       }
 
-      .arrival {
+      small {
         font-size: 0.8em;
       }
 
+      small.connection {
+        display: block;
+      }
+
       @media (max-width: 480px) {
-        .arrival {
+        small.arrival {
           display: block;
           font-size: 0.8em;
         }
@@ -61,12 +65,20 @@
     </script>
 
     <script id="trip-template" type="text/html">
-      <li class="alert alert-block {{ status_alert_class }}">
+      <li class="alert alert-block {{ orig_alert_class }}">
         <strong class="departure">
           Departs at {{ orig_departure_time }}
-          <span class="label {{ status_label_class }}">{{ orig_delay }}</span>
+          <span class="label {{ orig_label_class }}">{{ orig_delay }}</span>
         </strong>
-        <span class="arrival">Arrives at {{ orig_arrival_time }} on the {{ orig_line }} Line
+        <small class="arrival">Arrives at {{ orig_arrival_time }} on the {{ orig_line }} Line</small>
+        {{#Connection}}
+        <small class="connection">=== Connect at <strong>{{ Connection }}</strong> ===</small>
+        <strong class="departure">
+          Departs at {{ term_depart_time }}
+          <span class="label {{ term_label_class }}">{{ term_delay }}</span>
+        </strong>
+        <small class="arrival">Arrives at {{ term_arrival_time }} on the {{ term_line }} Line</small>
+        {{/Connection}}
       </li>
     </script>
 

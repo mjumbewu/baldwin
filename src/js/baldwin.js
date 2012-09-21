@@ -124,17 +124,26 @@ var Baldwin = Baldwin || {};
     },
     renderTrip: function(trip) {
       var data = _.extend({}, trip),
-          minsLate = parseInt(data.orig_delay, 10);
+          origDelay = parseInt(data.orig_delay, 10),
+          termDelay = parseInt(data.term_delay, 10);
 
-      if (minsLate > 0 && minsLate <= 5) {
-        data.status_alert_class = '';
-        data.status_label_class = 'label-warning';
-      } else if (minsLate > 5) {
-        data.status_alert_class = 'alert-error';
-        data.status_label_class = 'label-important';
+      if (origDelay > 0 && origDelay <= 5) {
+        data.orig_alert_class = '';
+        data.orig_label_class = 'label-warning';
+      } else if (origDelay > 5) {
+        data.orig_alert_class = 'alert-error';
+        data.orig_label_class = 'label-important';
       } else {
-        data.status_alert_class = 'alert-success';
-        data.status_label_class = 'label-success';
+        data.orig_alert_class = 'alert-success';
+        data.orig_label_class = 'label-success';
+      }
+
+      if (termDelay > 0 && termDelay <= 5) {
+        data.term_label_class = 'label-warning';
+      } else if (termDelay > 5) {
+        data.term_label_class = 'label-important';
+      } else {
+        data.term_label_class = 'label-success';
       }
 
       return ich['trip-template'](data);
