@@ -32,6 +32,12 @@
         display: block;
       }
 
+      .backstory {
+        font-size: 0.8em;
+        line-height: 120%;
+        color: #777;
+      }
+
       @media (max-width: 480px) {
         small.arrival {
           display: block;
@@ -72,7 +78,7 @@
         </strong>
         <small class="arrival">Arrives at {{ orig_arrival_time }} on the {{ orig_line }} Line</small>
         {{#Connection}}
-        <small class="connection">=== Connect at <strong>{{ Connection }}</strong> ===</small>
+        <small class="connection">— Connect at <strong>{{ Connection }}</strong></small>
         <strong class="departure">
           Departs at {{ term_depart_time }}
           <span class="label {{ term_label_class }}">{{ term_delay }}</span>
@@ -116,6 +122,8 @@
       </div>
 
     </div> <!-- /container -->
+
+    <div class="backstory">Baldwin is named after Philadelphia's Baldwin Locomotive Works, at one time the world's largest steam engine manufacturer. Read more on <a href="http://en.m.wikipedia.org/wiki/Baldwin_Locomotive_Works">Wikipedia</a>.</div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
