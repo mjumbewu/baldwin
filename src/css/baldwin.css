@@ -1,0 +1,197 @@
+body {
+	background: #ececec url(img/texture-light.png) 0 0 repeat;
+	font-family: "Open Sans", sans-serif; 
+	font-weight: 600; 
+	}
+
+h4 {margin-bottom: 15px; color: #333; letter-spacing: -1px; text-shadow: 0 1px #fff;}
+
+
+/*////// NAV ///////*/
+.navbar-inverse .navbar-inner  {
+	background: #ececec url(img/texture-dark.png) 0 0 repeat; 
+	-moz-box-shadow: 0px -4px 5px 5px;
+	-webkit-box-shadow: 0px -4px 5px 5px;
+	box-shadow: 0px -4px 5px 5px;
+}
+
+.navbar .brand {
+	text-indent: -9999em;
+	background: url(img/logo-baldwin.png) 0 50% no-repeat;
+	float:none;
+	margin: 0 auto;
+	width: 154px;
+	height: 34px;
+}
+
+.navbar #now {position:absolute; top: 0; right:0;}
+
+
+
+/*////// BUTTON ///////*/
+
+.close {opacity: .8;}
+.close:hover {opacity: 1;}
+.icon-close-lg {
+	background: url(img/icon-x-lg.png) 0 0 no-repeat;
+	width: 15px;
+	height: 15px;
+}
+
+
+/*////// ADD ROUTE ///////*/
+
+.add-route-inner {
+	margin-bottom: 15px;
+	background: #fff;
+	border: 0;
+	padding: 0;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.05);
+	-webkit-box-shadow: 3px 3px 3px rgba(0,0,0,.05);
+	box-shadow: 3px 3px 3px rgba(0,0,0,.05);
+}
+
+/*////// RESULTS ///////*/
+
+/* center route box when no results */
+.add-route-box + .results-box.empty {display:none;}
+.results-box.empty + .add-route-box {float:none; margin-left:auto; margin-right: auto;}
+
+.results-box {margin-top: 15px}
+
+.trip-group {margin-top: 30px; border-top: 1px solid #d3d3d3;}
+.trip-group:first-child {
+	border:0;
+	margin:0;
+}
+
+.trip {
+	margin-bottom: 15px;
+	background: #fff;
+	border: 0;
+	padding: 0;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.05);
+	-webkit-box-shadow: 3px 3px 3px rgba(0,0,0,.05);
+	box-shadow: 3px 3px 3px rgba(0,0,0,.05);
+}
+
+.leg {position:relative;}
+.leg > span {vertical-align:top; display:inline-block;}
+
+.leg .time-group {margin: 8px;}
+.leg .time-group label {
+	font-family: "Open Sans Condensed" sans-serif; 
+	text-transform: uppercase; 
+	font-weight: 700; 
+	color: #404040; 
+	font-size: .85em; 
+	letter-spacing: -0.05em;
+	margin: 0 0 4px;
+	line-height: 1.2em;
+}
+.leg .time-group .time {font-size: 1.4em;font-weight: 700;}
+.leg .time-group .time .am-pm {font-size: .65em; font-weight:600; padding-left: 1px;}
+
+.leg .time-group.secondary {padding-left: 8px; border-left: 1px solid #e2e2e2}
+.leg .time-group.secondary label {font-size: .8em; color: #b9b9b9;}
+.leg .time-group.secondary .time {font-size: 1.1em; color: #b9b9b9; line-height: 1em;}
+
+
+.leg .train-line {
+	font-style: italic;  
+	font-size: .85em; 
+	color: #ababab; 
+	position:absolute; 
+	margin: 8px 12px 0 0;
+	right: 0;
+	top: 0;
+}
+/*.multi-leg .leg:first-child .train-line {top: 0; bottom:auto;}
+.multi-leg .leg .train-line {bottom: 10px; top: auto;}*/
+
+.leg.status-ontime .status {background-color: #6ec979;}
+.leg.status-delayed .status {background-color: #e0b41e;}
+.leg.status-late .status {background-color: #e2816e;}
+
+.leg .status {
+	text-align:center;
+	color: #fff;
+	font-family: "Open Sans Condensed" sans-serif; 
+	text-transform: uppercase; 
+	font-weight: 700; 
+	font-size: .7em; 
+	letter-spacing: -0.05em;
+	line-height: 1.3em;
+	height: 60px;
+	width: 45px;
+	-moz-border-radius: 3px 0 0 3px;
+	-webkit-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+
+.multi-leg .leg:first-child .status {
+	-moz-border-radius: 3px 0 0 0;
+	-webkit-border-radius: 3px 0 0 0;
+	border-radius: 3px 0 0 0;
+}
+.multi-leg .leg .status {
+	-moz-border-radius: 0 0 0 3px;
+	-webkit-border-radius: 0 0 0 3px;
+	border-radius: 0 0 0 3px;
+}
+
+.connection {
+	background: #a9a9a9 url(img/stripes.png) 0 0 repeat; 
+	border: 2px solid #a9a9a9;
+	margin: 0 -5px; 
+	padding: 3px 7px;
+	color: #fff;
+	font-family: "Open Sans Condensed" sans-serif; 
+	text-shadow: 1px 1px 1px rgba(0,0,0,.3);
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.05);
+	-webkit-box-shadow: 3px 3px 3px rgba(0,0,0,.05);
+	box-shadow: 3px 3px 3px rgba(0,0,0,.05);
+}
+
+.connection label {
+	text-transform: uppercase; 
+	margin-right: 8px;
+	font-weight: 700; 
+	font-size: .8em; 
+	letter-spacing: -0.05em;
+	line-height: 1.3em;
+	display: inline;
+}
+
+
+
+ @media (min-width: 979px) {
+
+  .content {
+    margin-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+
+
+}
+
+
+@media (-webkit-min-device-pixel-ratio: 1.5), /* Webkit */
+       (min-resolution: 144dpi)             /* Everyone else, 1.5x96 */ {
+
+       	/* high rez*/
+}

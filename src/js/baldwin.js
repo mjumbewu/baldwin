@@ -61,8 +61,10 @@ var Baldwin = Baldwin || {};
       this.routeViews = {};
 
       if (this.collection.size() === 0) {
+        this.$el.closest('.results-box').addClass('empty');
         this.$el.html(ich['no-routes-template']());
       } else {
+        this.$el.closest('.results-box').removeClass('empty');
         this.$el.empty();
         this.collection.each(function(model){
           self.routeViews[model.cid] = new B.RouteView({ model: model });
@@ -75,6 +77,10 @@ var Baldwin = Baldwin || {};
   });
 
   B.RouteView = Backbone.View.extend({
+    tagName: 'li',
+     attributes: {
+      'class': 'trip-group'
+    },
     events: {
       'click .remove-route': 'removeRoute'
     },
@@ -122,28 +128,47 @@ var Baldwin = Baldwin || {};
         }
       });
     },
+
+    splitTime: function(timeString) {
+      if (!_.isUndefined(timeString)) {
+        return {
+          time: timeString.slice(0, -2),
+          am_pm: timeString.slice(-2)
+        };
+      }
+    },
+
     renderTrip: function(trip) {
       var data = _.extend({}, trip),
           origDelay = parseInt(data.orig_delay, 10),
-          termDelay = parseInt(data.term_delay, 10);
+          termDelay = parseInt(data.term_delay, 10),
+          lateLabel = " late";
+
+      //split am/pm
+      data.orig_departure_time = this.splitTime(data.orig_departure_time);
+      data.orig_arrival_time = this.splitTime(data.orig_arrival_time);
+      data.term_depart_time = this.splitTime(data.term_depart_time);
+      data.term_arrival_time = this.splitTime(data.term_arrival_time);
+
 
       if (origDelay > 0 && origDelay <= 5) {
-        data.orig_alert_class = '';
-        data.orig_label_class = 'label-warning';
+        data.orig_alert_class = 'status-delayed';
+        data.orig_delay = data.orig_delay + lateLabel;
       } else if (origDelay > 5) {
-        data.orig_alert_class = 'alert-error';
-        data.orig_label_class = 'label-important';
+        data.orig_alert_class = 'status-late';
+        data.orig_delay = data.orig_delay + lateLabel;
       } else {
-        data.orig_alert_class = 'alert-success';
-        data.orig_label_class = 'label-success';
+        data.orig_alert_class = 'status-ontime';
       }
 
       if (termDelay > 0 && termDelay <= 5) {
-        data.term_label_class = 'label-warning';
+        data.term_alert_class = 'staus-delayed';
+        data.term_delay = data.term_delay + lateLabel;
       } else if (termDelay > 5) {
-        data.term_label_class = 'label-important';
+        data.term_alert_class = 'status-late';
+        data.term_delay = data.term_delay + lateLabel;
       } else {
-        data.term_label_class = 'label-success';
+        data.term_alert_class = 'status-ontime';
       }
 
       return ich['trip-template'](data);

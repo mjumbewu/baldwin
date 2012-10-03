@@ -12,41 +12,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
     <!-- Le styles -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:600italic,600,700|Open+Sans+Condensed:700" rel="stylesheet" type="text/css">
     <link href="lib/bootstrap-2.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-
-      #route-list .label { float: right; }
-
-      .alert {
-        padding: 8px;
-      }
-
-      small {
-        font-size: 0.8em;
-      }
-
-      small.connection {
-        display: block;
-      }
-
-      .backstory {
-        font-size: 0.8em;
-        line-height: 120%;
-        color: #777;
-      }
-
-      @media (max-width: 480px) {
-        small.arrival {
-          display: block;
-          font-size: 0.8em;
-        }
-      }
-    </style>
     <link href="lib/bootstrap-2.1.1/css/bootstrap-responsive.css" rel="stylesheet">
-
+    <link href="css/baldwin.css" rel="stylesheet">
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -58,33 +27,55 @@
     <link rel="apple-touch-icon" sizes="72x72" href="ico/SEPTA_logo_1970s_72.png">
     <link rel="apple-touch-icon" href="ico/SEPTA_logo_1970s_57.png">
 
-    <script id="no-route-template" type="text/html">
-      <li class="alert alert-block alert-info">Add some routes to see the upcoming trips!</li>
+    <script id="no-routes-template" type="text/html">
+      <!--<li class="alert alert-block alert-info">Add some routes to see the upcoming trips!</li>-->
     </script>
 
     <script id="route-template" type="text/html">
-      <li class="well well-small">
-        <button type="button" class="close remove-route">&times;</button>
+        <button type="button" class="close remove-route"><i class="icon icon-close-lg"></i></button>
         <h4>{{ start.name }} to {{ end.name }}</h4>
         <ol class="unstyled trip-list"></ol>
-      </li>
     </script>
 
     <script id="trip-template" type="text/html">
-      <li class="alert alert-block {{ orig_alert_class }}">
-        <strong class="departure">
-          Departs at {{ orig_departure_time }}
-          <span class="label {{ orig_label_class }}">{{ orig_delay }}</span>
-        </strong>
-        <small class="arrival">Arrives at {{ orig_arrival_time }} on the {{ orig_line }} Line</small>
+      <li class="trip {{#Connection}}multi-leg{{/Connection}}">
+        <div class="leg  {{ orig_alert_class }}">
+          <span class="status {{ orig_label_class }}">{{ orig_delay }}</span>
+          <span class="time-group">
+              <label>Departs</label>
+              <div class="time">{{ orig_departure_time.time }}<span class="am-pm">{{ orig_departure_time.am_pm }}</span></div>
+          </span>
+          <span class="time-group secondary">
+            <label>Arrives</label>
+            <div class="time arrival">{{ orig_arrival_time.time }}<span class="am-pm">{{ orig_arrival_time.am_pm }}</div>
+          </span>
+          <span class="train-line secondary">
+            Via the {{ orig_line }} Line
+          </span>
+        </div>
         {{#Connection}}
-        <small class="connection">— Connect at <strong>{{ Connection }}</strong></small>
-        <strong class="departure">
-          Departs at {{ term_depart_time }}
-          <span class="label {{ term_label_class }}">{{ term_delay }}</span>
-        </strong>
-        <small class="arrival">Arrives at {{ term_arrival_time }} on the {{ term_line }} Line</small>
-        {{/Connection}}
+        <div class="connection">
+          <label>Connect</label> {{ Connection }}
+        </div>
+        <div class="leg {{ term_alert_class }}">
+          <span class="status">{{ term_delay }}</span>        
+          <span class="time-group">
+              <label>Departs</label>
+              <div class="time">
+                {{ term_depart_time.time }}<span class="am-pm">{{ term_depart_time.am_pm }}</span>
+              </div>
+          </span>
+          <span class="time-group secondary">
+            <label class="arrival">Arrives</label>
+            <div class="time">
+              {{ term_arrival_time.time }}<span class="am-pm">{{ term_arrival_time.am_pm }}</span>
+            </div>
+          </span>
+          <div class="train-line secondary">
+            Via the {{ orig_line }} Line
+          </div>
+          {{/Connection}}
+        </div>
       </li>
     </script>
 
@@ -100,25 +91,27 @@
         <div class="container">
           <a class="brand" href="#">Baldwin (for SEPTA)</a>
 
-          <p id="now" class="navbar-text pull-right"></p>
+          <p id="now" class="navbar-text"></p>
         </div>
       </div>
     </div>
 
-    <div class="container">
+    <div class="content container">
     <div class="row">
-      <div class="span9">
+      <div class="results-box span9 empty">
         <ol id="route-list" class="unstyled"></ol>
       </div>
-      <div class="span3">
-        <h4>Add a Route</h4>
-        <form id="add-route">
-          <label for="start-station">Start Station</label>
-          <input type="text" id="start-station" name="start" class="station span3" placeholder="Where are you?" data-provide="typeahead">
-          <label for="end-station">End Station</label>
-          <input type="text" id="end-station" name="end" class="station span3"  placeholder="Where are you going?" data-provide="typeahead">
-          <button type="submit" class="btn btn-primary btn-block">Add</button>
-        </form>
+      <div class="add-route-box span3">
+        <div class="add-route-inner">
+          <h4>Add a Route</h4>
+          <form id="add-route">
+            <label for="start-station">Start Station</label>
+            <input type="text" id="start-station" name="start" class="station span3" placeholder="Where are you?" data-provide="typeahead">
+            <label for="end-station">End Station</label>
+            <input type="text" id="end-station" name="end" class="station span3"  placeholder="Where are you going?" data-provide="typeahead">
+            <button type="submit" class="btn btn-primary btn-block">Add</button>
+          </form>
+        </div>
       </div>
 
     </div> <!-- /container -->
