@@ -4,8 +4,22 @@ body {
 	font-weight: 600; 
 	}
 
-h4 {margin-bottom: 15px; color: #333; letter-spacing: -1px; text-shadow: 0 1px #fff;}
+a {color: #d9725e;}
 
+h4 {color: #333; letter-spacing: -1px; text-shadow: 0 1px #fff;}
+
+input {	font-family: "Open Sans", sans-serif; }
+
+label {	
+	font-size: .85em; 
+	letter-spacing: -0.05em;
+	font-family: "Open Sans Condensed" sans-serif; 
+	text-transform: uppercase; 
+	font-weight: 700; 		
+	line-height: 1.2em;
+}
+
+.content h4 {margin: 0 0 15px 0; }
 
 /*////// NAV ///////*/
 .navbar-inverse .navbar-inner  {
@@ -41,18 +55,20 @@ h4 {margin-bottom: 15px; color: #333; letter-spacing: -1px; text-shadow: 0 1px #
 
 /*////// ADD ROUTE ///////*/
 
-.add-route-inner {
-	margin-bottom: 15px;
-	background: #fff;
-	border: 0;
-	padding: 0;
+#add-route {
+	margin: 15px 0;
+	background: #e4e4e4;
+	background: rgba(0,0,0,.05);
+	border: 1px solid #e9e9e9;
+	padding: 15px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	-moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.05);
-	-webkit-box-shadow: 3px 3px 3px rgba(0,0,0,.05);
-	box-shadow: 3px 3px 3px rgba(0,0,0,.05);
+	-moz-box-shadow: 3px 3px 5px rgba(0,0,0,0.10);
+	-webkit-box-shadow: 3px 3px 5px rgba(0,0,0,0.10);
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.10);
 }
+#add-route input {color: #ababab; width: 90%;font-size: .9em; font-weight: 600; letter-spacing: -1px; }
 
 /*////// RESULTS ///////*/
 
@@ -60,13 +76,9 @@ h4 {margin-bottom: 15px; color: #333; letter-spacing: -1px; text-shadow: 0 1px #
 .add-route-box + .results-box.empty {display:none;}
 .results-box.empty + .add-route-box {float:none; margin-left:auto; margin-right: auto;}
 
-.results-box {margin-top: 15px}
+.trip-group {margin-top: 30px; padding-top: 15px; border-top: 1px solid #d3d3d3;}
+.trip-group:first-child {border:0;	margin:0; padding:0}
 
-.trip-group {margin-top: 30px; border-top: 1px solid #d3d3d3;}
-.trip-group:first-child {
-	border:0;
-	margin:0;
-}
 
 .trip {
 	margin-bottom: 15px;
@@ -80,21 +92,15 @@ h4 {margin-bottom: 15px; color: #333; letter-spacing: -1px; text-shadow: 0 1px #
 	-webkit-box-shadow: 3px 3px 3px rgba(0,0,0,.05);
 	box-shadow: 3px 3px 3px rgba(0,0,0,.05);
 }
+.trip.multi-leg {
+	margin-bottom: 25px;
+}
 
 .leg {position:relative;}
 .leg > span {vertical-align:top; display:inline-block;}
 
 .leg .time-group {margin: 8px;}
-.leg .time-group label {
-	font-family: "Open Sans Condensed" sans-serif; 
-	text-transform: uppercase; 
-	font-weight: 700; 
-	color: #404040; 
-	font-size: .85em; 
-	letter-spacing: -0.05em;
-	margin: 0 0 4px;
-	line-height: 1.2em;
-}
+.leg .time-group label {color: #404040; margin: 0 0 4px;}
 .leg .time-group .time {font-size: 1.4em;font-weight: 700;}
 .leg .time-group .time .am-pm {font-size: .65em; font-weight:600; padding-left: 1px;}
 
@@ -121,19 +127,17 @@ h4 {margin-bottom: 15px; color: #333; letter-spacing: -1px; text-shadow: 0 1px #
 
 .leg .status {
 	text-align:center;
-	color: #fff;
-	font-family: "Open Sans Condensed" sans-serif; 
-	text-transform: uppercase; 
-	font-weight: 700; 
-	font-size: .7em; 
-	letter-spacing: -0.05em;
-	line-height: 1.3em;
 	height: 60px;
 	width: 45px;
 	-moz-border-radius: 3px 0 0 3px;
 	-webkit-border-radius: 3px 0 0 3px;
 	border-radius: 3px 0 0 3px;
 }
+
+.leg .status label { color: #fff; font-size: .7em; line-height: 1.2em;}
+.leg.status-ontime .status label {padding: 0 10px;}
+
+.leg .status .timer {margin: 5px auto; width: 21px; height :21px;}
 
 .multi-leg .leg:first-child .status {
 	-moz-border-radius: 3px 0 0 0;
@@ -163,13 +167,25 @@ h4 {margin-bottom: 15px; color: #333; letter-spacing: -1px; text-shadow: 0 1px #
 }
 
 .connection label {
-	text-transform: uppercase; 
 	margin-right: 8px;
 	font-weight: 700; 
 	font-size: .8em; 
-	letter-spacing: -0.05em;
 	line-height: 1.3em;
 	display: inline;
+}
+
+
+/*////// FOOTER ///////*/
+
+footer {
+	margin-top: 40px;
+	padding: 10px 0 20px 0;
+	font-size: .8em;
+	line-height: 1.25em;
+	font-style: italic; 
+	color: #ababab; 
+	border-color: #d4d4d4;
+	border-top: 5px solid rgba(95,95,95,.2);
 }
 
 
@@ -177,7 +193,7 @@ h4 {margin-bottom: 15px; color: #333; letter-spacing: -1px; text-shadow: 0 1px #
  @media (min-width: 979px) {
 
   .content {
-    margin-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+    margin-top: 80px; /* 60px to make the container go all the way to the bottom of the topbar */
   }
 
 }

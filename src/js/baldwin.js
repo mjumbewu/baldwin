@@ -97,6 +97,10 @@ var Baldwin = Baldwin || {};
       return this;
     },
 
+     mapRange: function(value, low1, high1, low2, high2) {
+      return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+    },
+
     renderTrips: function() {
       var self = this;
 
@@ -116,7 +120,17 @@ var Baldwin = Baldwin || {};
           if (trips.length > 0) {
             _.each(trips, function(trip) {
               var $trip = self.renderTrip(trip);
-              self.$('.trip-list').append($trip);
+              self.$('.trip-list').append($trip.template);
+
+            //init pietimer
+              $trip.template.find(".timer").each(function(i){
+                $(this).pietimer({
+                    seconds: $trip.data.mins_to_dep * 60,
+                    sliceColor: $trip.data.slice_color[i],
+                    // map time value from a range of 0 to 60 minutes to 0 to 360 degrees
+                    start: self.mapRange($trip.data.mins_to_dep, 0, 60, 0, 360)
+                }).pietimer('start');
+               });
             });
           } else {
             self.renderMessage('Sorry, no upcoming trips were found.');
@@ -129,13 +143,40 @@ var Baldwin = Baldwin || {};
       });
     },
 
-    splitTime: function(timeString) {
-      if (!_.isUndefined(timeString)) {
+    splitTime: function(timeStr) {
+      if (!_.isUndefined(timeStr)) {
+        timeStr = $.trim(timeStr);
         return {
-          time: timeString.slice(0, -2),
-          am_pm: timeString.slice(-2)
+            meridian: timeStr.slice(-2).toLowerCase(),
+            hours: timeStr.slice(0, timeStr.indexOf(':')),
+            minutes: timeStr.slice(timeStr.indexOf(':')+1, -2),
+            time: timeStr.slice(0, -2)
         };
       }
+    },
+
+    minsToDepartureTime: function(time) {
+      var date = new Date();
+      //account for DST
+      date.toLocaleString();
+      var calcDate = new Date();
+      //account for DST
+      calcDate.toLocaleString();
+
+      // parse 12hr time string into 24hr.
+      // KNOWN ISSUE: This will need to take into account rollover into the next day
+      if (time.meridian=='pm') {
+          time.hours = (time.hours=='12') ? '00' : parseInt(time.hours, 10)+12 ;
+      }
+      else if(hours.length<2) {
+          time.hours = '0' + time.hours;
+      }
+      //pull parsed string into time obj
+      calcDate.setHours(time.hours);
+      calcDate.setMinutes(time.minutes);
+
+      //return time compareed to now, converted to minutes from milliseconds
+      return Math.floor(((calcDate-date)/1000)/60);
     },
 
     renderTrip: function(trip) {
@@ -144,34 +185,48 @@ var Baldwin = Baldwin || {};
           termDelay = parseInt(data.term_delay, 10),
           lateLabel = " late";
 
-      //split am/pm
+      //split time for styling and parsability
       data.orig_departure_time = this.splitTime(data.orig_departure_time);
       data.orig_arrival_time = this.splitTime(data.orig_arrival_time);
       data.term_depart_time = this.splitTime(data.term_depart_time);
       data.term_arrival_time = this.splitTime(data.term_arrival_time);
 
+      //default color and time to on-time departure
+      data.slice_color = [];
+      data.mins_to_dep = this.minsToDepartureTime(data.orig_departure_time);
 
       if (origDelay > 0 && origDelay <= 5) {
         data.orig_alert_class = 'status-delayed';
         data.orig_delay = data.orig_delay + lateLabel;
+        data.mins_to_dep = data.mins_to_dep + origDelay;
+        data.slice_color.push('#ffd71c');
       } else if (origDelay > 5) {
         data.orig_alert_class = 'status-late';
         data.orig_delay = data.orig_delay + lateLabel;
+        data.mins_to_dep = data.mins_to_dep + origDelay;
+        data.slice_color.push('#ff7a7a');
       } else {
         data.orig_alert_class = 'status-ontime';
+        data.slice_color.push('#45ff5d');
       }
 
       if (termDelay > 0 && termDelay <= 5) {
         data.term_alert_class = 'staus-delayed';
         data.term_delay = data.term_delay + lateLabel;
+        data.mins_to_dep = data.mins_to_dep + termDelay;
+        data.slice_color.push('#ffd71c');
       } else if (termDelay > 5) {
         data.term_alert_class = 'status-late';
         data.term_delay = data.term_delay + lateLabel;
+        data.mins_to_dep = data.mins_to_dep + termDelay;
+        data.slice_color.push('#ff7a7a');
       } else {
         data.term_alert_class = 'status-ontime';
+        data.slice_color.push('#45ff5d');
       }
 
-      return ich['trip-template'](data);
+      return {template: ich['trip-template'](data), data: data};
+
     },
     renderMessage: function(message) {
       this.$('.trip-list').html(ich['message-template']({
@@ -236,4 +291,13 @@ var Baldwin = Baldwin || {};
   });
 
   $('.station').typeahead({source: _.pluck(B.stations, 'name') });
+
+      //init pietimer
+   $('.timer').each(function(){
+        $(this).pietimer({
+            seconds: 5,
+            sliceColor: data.sliceColor
+        }).pietimer('start');
+   });
+
 })(Baldwin, jQuery);
