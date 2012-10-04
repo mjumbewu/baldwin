@@ -6,11 +6,11 @@ body {
 
 a {color: #d9725e;}
 
-h4 {color: #333; letter-spacing: -1px; text-shadow: 0 1px #fff;}
+h4 {font-size: 1.6em; font-family: "Open Sans Condensed", sans-serif; color: #333; letter-spacing: -1px; text-shadow: 0 1px #fff;}
 
 input {	font-family: "Open Sans", sans-serif; }
 
-label {	
+label, .btn {	
 	font-size: .85em; 
 	letter-spacing: -0.05em;
 	font-family: "Open Sans Condensed" sans-serif; 
@@ -52,8 +52,45 @@ label {
 	height: 15px;
 }
 
+.btn {
+  background-color: hsl(205, 28%, 42%) !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#6f94ae", endColorstr="#4d7089");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#6f94ae), to(#4d7089));
+  background-image: -moz-linear-gradient(top, #6f94ae, #4d7089);
+  background-image: -ms-linear-gradient(top, #6f94ae, #4d7089);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #6f94ae), color-stop(100%, #4d7089));
+  background-image: -webkit-linear-gradient(top, #6f94ae, #4d7089);
+  background-image: -o-linear-gradient(top, #6f94ae, #4d7089);
+  background-image: linear-gradient(#6f94ae, #4d7089);
+  border-color: #4d7089 #4d7089 hsl(205, 28%, 38.5%);
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.23);
+  -webkit-font-smoothing: antialiased;
+} 
+
+.btn-black {
+  background-color: hsl(205, 0%, 19%) !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#545454", endColorstr="#303030");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#545454), to(#303030));
+  background-image: -moz-linear-gradient(top, #545454, #303030);
+  background-image: -ms-linear-gradient(top, #545454, #303030);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #545454), color-stop(100%, #303030));
+  background-image: -webkit-linear-gradient(top, #545454, #303030);
+  background-image: -o-linear-gradient(top, #545454, #303030);
+  background-image: linear-gradient(#545454, #303030);
+  border-color: #303030 #303030 hsl(205, 0%, 15.5%);
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.23);
+  -webkit-font-smoothing: antialiased;
+}
+
+#add-route-btn {display:none;}
 
 /*////// ADD ROUTE ///////*/
+
+#add-route-box h4 {text-align:center; color: #b5b5b5; margin-bottom: 13px; font-size: 1.9em;} 
 
 #add-route {
 	margin: 15px 0;
@@ -70,18 +107,21 @@ label {
 }
 #add-route input {color: #ababab; width: 90%;font-size: .9em; font-weight: 600; letter-spacing: -1px; }
 
+#add-route .form-group {margin: 3px 0 10px;}
+
 /*////// RESULTS ///////*/
 
 /* center route box when no results */
-.add-route-box + .results-box.empty {display:none;}
-.results-box.empty + .add-route-box {float:none; margin-left:auto; margin-right: auto;}
 
-.trip-group {margin-top: 30px; padding-top: 15px; border-top: 1px solid #d3d3d3;}
+#add-route-box + .results-box.empty {display:none;}
+.results-box.empty + #add-route-box {float:none; margin-left:auto; margin-right: auto;}
+
+.trip-group {margin-top: 25px; padding-top: 15px; border-top: 1px solid #d3d3d3;}
 .trip-group:first-child {border:0;	margin:0; padding:0}
 
 
 .trip {
-	margin-bottom: 15px;
+	margin-bottom: 20px;
 	background: #fff;
 	border: 0;
 	padding: 0;
@@ -91,20 +131,20 @@ label {
 	-moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.05);
 	-webkit-box-shadow: 3px 3px 3px rgba(0,0,0,.05);
 	box-shadow: 3px 3px 3px rgba(0,0,0,.05);
-}
-.trip.multi-leg {
-	margin-bottom: 25px;
+
 }
 
 .leg {position:relative;}
 .leg > span {vertical-align:top; display:inline-block;}
 
-.leg .time-group {margin: 8px;}
+.leg .info {margin-left: 45px;	min-height: 60px;}
+
+.leg .time-group { display:inline-block;margin: 8px 8px 0; vertical-align: top}
 .leg .time-group label {color: #404040; margin: 0 0 4px;}
 .leg .time-group .time {font-size: 1.4em;font-weight: 700;}
 .leg .time-group .time .am-pm {font-size: .65em; font-weight:600; padding-left: 1px;}
 
-.leg .time-group.secondary {padding-left: 8px; border-left: 1px solid #e2e2e2}
+.leg .time-group.secondary {min-height: 0;padding-left: 8px; border-left: 1px solid #e2e2e2}
 .leg .time-group.secondary label {font-size: .8em; color: #b9b9b9;}
 .leg .time-group.secondary .time {font-size: 1.1em; color: #b9b9b9; line-height: 1em;}
 
@@ -126,8 +166,9 @@ label {
 .leg.status-late .status {background-color: #e2816e;}
 
 .leg .status {
+	float:left;
 	text-align:center;
-	height: 60px;
+	min-height: 60px;
 	width: 45px;
 	-moz-border-radius: 3px 0 0 3px;
 	-webkit-border-radius: 3px 0 0 3px;
@@ -201,6 +242,26 @@ footer {
 
 @media (max-width: 480px) {
 
+	.leg .train-line {
+		position:relative;
+		display:block;
+		margin-left: 8px;
+		padding: 4px 0;
+		border-top: 1px solid #e2e2e2;
+	}
+	.leg .info {margin-left: 60px;	min-height: 90px;}
+	.leg .status {width: 60px; min-height: 90px;}
+	.leg .status label {font-size: .9em; padding: 0 3px; line-height: 1.1em;}
+	.leg .status .timer {margin-top: 10px; width: 30px; height: 30px;}
+	.leg .time-group {font-size: 1.1em; }
+	.leg .time-group label {margin-bottom: 2px;}
+
+	#add-route-box {margin-top: 30px; padding-top: 30px; border-top: 1px solid #d3d3d3;}
+	.results-box.empty + #add-route-box {float:none; padding: 0; margin-top: 0; border: 0; margin-left:auto; margin-right: auto;}
+	
+	#now {display:none;}
+	#add-route-btn {position: absolute; right:15px; top: 15px; display:inline-block;}
+
 
 
 }
@@ -208,6 +269,28 @@ footer {
 
 @media (-webkit-min-device-pixel-ratio: 1.5), /* Webkit */
        (min-resolution: 144dpi)             /* Everyone else, 1.5x96 */ {
-
        	/* high rez*/
+	.navbar .brand {
+		text-indent: -9999em;
+		background: url(img/logo-baldwin@2x.png) 50% 50% no-repeat;
+		background-size: contain;
+		float:none;
+		margin: 0 auto;
+		width: 170px;
+		height: 15px;
+	}
+
+	/* double size the canvas timer for retina then scale back down */
+	.leg .status .timer {
+		width: 60px; 
+		height: 60px; 
+		margin: -7px 0 -7px;
+		-ms-transform: scale(.5); 
+		-webkit-transform: scale(.5); 
+		-moz-transform: scale(.5); 
+		transform: scale(.5);
+	}
+
+
+
 }

@@ -44,17 +44,19 @@
             <div class="timer"></div>
             <label>{{ orig_delay }}</label>
           </span>
-          <span class="time-group">
-              <label>Departs</label>
-              <div class="time">{{ orig_departure_time.time }}<span class="am-pm">{{ orig_departure_time.meridian }}</span></div>
-          </span>
-          <span class="time-group secondary">
-            <label>Arrives</label>
-            <div class="time arrival">{{ orig_arrival_time.time }}<span class="am-pm">{{ orig_arrival_time.meridian }}</div>
-          </span>
-          <span class="train-line secondary">
-            Via the {{ orig_line }} Line
-          </span>
+          <div class="info">
+            <span class="time-group">
+                <label>Departs</label>
+                <div class="time">{{ orig_departure_time.time }}<span class="am-pm">{{ orig_departure_time.meridian }}</span></div>
+            </span>
+            <span class="time-group secondary">
+              <label>Arrives</label>
+              <div class="time arrival">{{ orig_arrival_time.time }}<span class="am-pm">{{ orig_arrival_time.meridian }}</div>
+            </span>
+            <span class="train-line secondary">
+              Via the {{ orig_line }} Line
+            </span>
+          </div>
         </div>
         {{#Connection}}
         <div class="connection">
@@ -65,20 +67,22 @@
              <div class="timer"></div>
              <label>{{ term_delay }}</label>
           </span>        
-          <span class="time-group">
-              <label>Departs</label>
+          <div class="info">
+            <span class="time-group">
+                <label>Departs</label>
+                <div class="time">
+                  {{ term_depart_time.time }}<span class="am-pm">{{ term_depart_time.meridian }}</span>
+                </div>
+            </span>
+            <span class="time-group secondary">
+              <label class="arrival">Arrives</label>
               <div class="time">
-                {{ term_depart_time.time }}<span class="am-pm">{{ term_depart_time.meridian }}</span>
+                {{ term_arrival_time.time }}<span class="am-pm">{{ term_arrival_time.meridian }}</span>
               </div>
-          </span>
-          <span class="time-group secondary">
-            <label class="arrival">Arrives</label>
-            <div class="time">
-              {{ term_arrival_time.time }}<span class="am-pm">{{ term_arrival_time.meridian }}</span>
+            </span>
+            <div class="train-line secondary">
+              Via the {{ orig_line }} Line
             </div>
-          </span>
-          <div class="train-line secondary">
-            Via the {{ orig_line }} Line
           </div>
           {{/Connection}}
         </div>
@@ -98,6 +102,7 @@
           <a class="brand" href="#">Baldwin (for SEPTA)</a>
 
           <p id="now" class="navbar-text"></p>
+          <a id="add-route-btn" class="btn btn-black" href="#add-route-box"><i class="icon-white icon-plus"></i></a>
         </div>
       </div>
     </div>
@@ -107,14 +112,18 @@
       <div class="results-box span9 empty">
         <ol id="route-list" class="unstyled"></ol>
       </div>
-      <div class="add-route-box span3">
+      <div id="add-route-box" class="span3">
         <h4>Add a Route</h4>
         <form id="add-route">
-          <label for="start-station">Start Station</label>
-          <input type="text" id="start-station" name="start" class="station span3" placeholder="Where are you?" data-provide="typeahead">
+          <div class="form-group">
+            <label for="start-station">Start Station</label>
+            <input type="text" id="start-station" name="start" class="station span3" placeholder="Where are you?" data-provide="typeahead">
+         </div>
+         <div class="form-group">
           <label for="end-station">End Station</label>
           <input type="text" id="end-station" name="end" class="station span3"  placeholder="Where are you going?" data-provide="typeahead">
-          <button type="submit" class="btn btn-primary btn-block">Add</button>
+         </div>
+          <button type="submit" class="btn btn-primary btn-block">Add Route</button>
         </form>
       </div>
 

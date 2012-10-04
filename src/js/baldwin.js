@@ -204,7 +204,7 @@ var Baldwin = Baldwin || {};
         data.orig_alert_class = 'status-late';
         data.orig_delay = data.orig_delay + lateLabel;
         data.mins_to_dep = data.mins_to_dep + origDelay;
-        data.slice_color.push('#ff7a7a');
+        data.slice_color.push('#ff4328');
       } else {
         data.orig_alert_class = 'status-ontime';
         data.slice_color.push('#45ff5d');
@@ -219,7 +219,7 @@ var Baldwin = Baldwin || {};
         data.term_alert_class = 'status-late';
         data.term_delay = data.term_delay + lateLabel;
         data.mins_to_dep = data.mins_to_dep + termDelay;
-        data.slice_color.push('#ff7a7a');
+        data.slice_color.push('#ff4328');
       } else {
         data.term_alert_class = 'status-ontime';
         data.slice_color.push('#45ff5d');
