@@ -33,9 +33,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     
     var DEFAULT_SETTINGS = {
         seconds: 10,
-        color: 'rgba(255, 255, 255, 0.8)',
+        color: 'rgba(0, 0, 0, 0.2)',
+        sliceColor: 'rgba(255, 255, 255, 0.2)',
         height: null,
-        width: null
+        width: null,
+        start : 360
     };
 
     // Internal constants
@@ -61,7 +63,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         this.settings = settings;
         this.jquery_object = jquery_object;
         this.interval_id = null;
-        this.current_value = DEFAULT_VALUE;
+        this.current_value = this.settings.start;
         this.callback = callback;
         this.is_paused = true;
         this.jquery_object.html('<canvas class="' + TIMER_CSS_CLASS + '" width="' + settings.width + '" height="' + settings.height + '"></canvas>');
@@ -72,7 +74,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         start: function () {
             if (this.is_paused) {
                 if (this.current_value <= 0) {
-                    this.current_value = DEFAULT_VALUE;
+                    this.current_value = this.settings.start;
                 }
                 this.interval_id = setInterval($.proxy(this.run_timer, this), PIE_TIMER_INTERVAL);
                 this.is_paused = false;
@@ -89,14 +91,27 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         run_timer: function () {
             if (this.canvas.getContext) {
 
-                this.current_value -= (DEFAULT_VALUE / this.settings.seconds) / 24;
+                // This is a total hack to clear the canvas. It would be
+                // better to fill the canvas with the background color
+                this.canvas.width = this.settings.width;
+                this.canvas.width = this.settings.width;
+
+                var ctx = this.canvas.getContext('2d');
+
+                var canvas_size = [this.canvas.width, this.canvas.height];
+                var radius = Math.min(canvas_size[0], canvas_size[1]) / 2;
+                var center = [canvas_size[0] / 2, canvas_size[1] / 2];
+
+                ctx.beginPath();
+                ctx.arc(center[0], center[1], radius, 0, Math.PI*2, true);
+                ctx.closePath();
+                ctx.fillStyle = this.settings.color;
+                ctx.fill();
+
+                this.current_value -= (this.settings.start / this.settings.seconds) / 24;
 
                 if (this.current_value <= 0) {
                     clearInterval(this.interval_id);
-                    
-                    // This is a total hack to clear the canvas. It would be 
-                    // better to fill the canvas with the background color
-                    this.canvas.width = this.settings.width;
                     
                     if ($.isFunction(this.callback)) {
                         this.callback.call();
@@ -104,15 +119,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     this.is_paused = true;
 
                 } else {
-                    // This is a total hack to clear the canvas. It would be 
-                    // better to fill the canvas with the background color
-                    this.canvas.width = this.settings.width;
-
-                    var ctx = this.canvas.getContext('2d');
-
-                    var canvas_size = [this.canvas.width, this.canvas.height];
-                    var radius = Math.min(canvas_size[0], canvas_size[1]) / 2;
-                    var center = [canvas_size[0] / 2, canvas_size[1] / 2];
 
                     ctx.beginPath();
                     ctx.moveTo(center[0], center[1]);
@@ -121,14 +127,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         center[0],
                         center[1],
                         radius,
-                        start - this.current_value * PI_BY_180,
                         start,
+                        start + this.current_value * PI_BY_180,
                         false
                     );
 
-                    ctx.closePath();
-                    ctx.fillStyle = this.settings.color;
+                    ctx.fillStyle = this.settings.sliceColor;
                     ctx.fill();
+                    ctx.closePath();
+
+
 
                 }
             }
