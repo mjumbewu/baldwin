@@ -14,7 +14,7 @@ input {	font-family: "Open Sans", sans-serif; }
 label, .btn {	
 	font-size: .85em; 
 	letter-spacing: -0.05em;
-	font-family: "Open Sans Condensed" sans-serif; 
+	font-family: "Open Sans Condensed", sans-serif; 
 	text-transform: uppercase; 
 	font-weight: 700; 		
 	line-height: 1.2em;
