@@ -19,7 +19,7 @@ var Baldwin = Baldwin || {};
 
     initialize: function() {
       // Get the current location
-      navigator.geolocation.getCurrentPosition(_.bind(this.setPosition, this));
+      //navigator.geolocation.getCurrentPosition(_.bind(this.setPosition, this));
     },
 
     comparator: function(route) {
@@ -97,7 +97,7 @@ var Baldwin = Baldwin || {};
       return this;
     },
 
-     mapRange: function(value, low1, high1, low2, high2) {
+    mapRange: function(value, low1, high1, low2, high2) {
       return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
     },
 
@@ -105,7 +105,7 @@ var Baldwin = Baldwin || {};
       var self = this;
 
       // Set the time
-      this.$now.text(moment().format('h:mm A'));
+      this.$now.html(moment().format('h:mm') + '<span class="am-pm">'+moment().format('A')+'</span>');
 
       $.ajax({
         url: 'http://www3.septa.org/hackathon/NextToArrive/',
@@ -121,8 +121,7 @@ var Baldwin = Baldwin || {};
             _.each(trips, function(trip) {
               var $trip = self.renderTrip(trip);
               self.$('.trip-list').append($trip.template);
-
-            //init pietimer
+              //render pietimer
               $trip.template.find(".timer").each(function(i){
                 $(this).pietimer({
                     seconds: $trip.data.mins_to_dep[i] * 60,
@@ -184,24 +183,25 @@ var Baldwin = Baldwin || {};
           termDelay = parseInt(data.term_delay, 10),
           lateLabel = " late";
 
-      //split time for styling and parsability
+      //split times for styling and parsability
       data.orig_departure_time = this.splitTime(data.orig_departure_time);
       data.orig_arrival_time = this.splitTime(data.orig_arrival_time);
       data.term_depart_time = this.splitTime(data.term_depart_time);
       data.term_arrival_time = this.splitTime(data.term_arrival_time);
 
-
       //default color and time to on-time departure
       data.slice_color = [];
       data.mins_to_dep = [];
 
+        if (data.isdirect == "false") {
+          data.trip_class = 'multi-leg';
+        }
 
         if (origDelay > 0 && origDelay <= 5) {
           data.orig_alert_class = 'status-delayed';
           data.orig_delay = data.orig_delay + lateLabel;
           data.mins_to_dep.push(this.minsToDepartureTime(data.orig_departure_time) + origDelay);
           data.slice_color.push('#ffd71c');
-
         } else if (origDelay > 5) {
           data.orig_alert_class = 'status-late';
           data.orig_delay = data.orig_delay + lateLabel;
@@ -217,14 +217,14 @@ var Baldwin = Baldwin || {};
           if (termDelay > 0 && termDelay <= 5) {
             data.term_alert_class = 'staus-delayed';
             data.term_delay = data.term_delay + lateLabel;
-            data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + term_delay);
+            data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + termDelay);
             data.slice_color.push('#ffd71c');
           } else if (termDelay > 5) {
             data.term_alert_class = 'status-late';
             data.term_delay = data.term_delay + lateLabel;
-            data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + term_delay);
+            data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + termDelay);
             data.slice_color.push('#ff4328');
-          } else if (isNaN(termDelay) ) {
+          } else if (isNaN(termDelay)) {
             data.term_alert_class = 'status-ontime';
             data.slice_color.push('#45ff5d');
             data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time));
@@ -283,7 +283,7 @@ var Baldwin = Baldwin || {};
 
   var routeCollection = new B.RouteList(),
       addRouteView = new B.AddRouteView({
-        el: '#add-route',
+        el: '#add-route-form',
         collection: routeCollection
       }),
       routeListView = new B.RouteListView({
