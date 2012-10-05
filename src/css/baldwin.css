@@ -230,6 +230,8 @@ label, .btn {
 }
 
 
+.no-trips {display: inline-block; font-size: 1.4em; color:#ababab ; letter-spacing: -0.08em; margin: 20px 0  30px;}
+
 /*////// FOOTER ///////*/
 
 .backstory {
