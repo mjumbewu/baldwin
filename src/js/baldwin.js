@@ -166,15 +166,14 @@ var Baldwin = Baldwin || {};
       // parse 12hr time string into 24hr.
       // KNOWN ISSUE: This will need to take into account rollover into the next day
       if (time.meridian=='pm') {
-          time.hours = (time.hours=='12') ? '00' : parseInt(time.hours, 10)+12 ;
+          time.hours = (time.hours=='12') ? '12' : parseInt(time.hours, 10)+12 ;
       }
-      else if(hours.length<2) {
+      else if(time.hours.length<2) {
           time.hours = '0' + time.hours;
       }
       //pull parsed string into time obj
       calcDate.setHours(time.hours);
       calcDate.setMinutes(time.minutes);
-
       //return time compareed to now, converted to minutes from milliseconds
       return Math.floor(((calcDate-date)/1000)/60);
     },
