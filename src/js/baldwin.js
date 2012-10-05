@@ -212,21 +212,23 @@ var Baldwin = Baldwin || {};
           data.slice_color.push('#45ff5d');
           data.mins_to_dep.push(this.minsToDepartureTime(data.orig_departure_time));
         }
-        
-        if (termDelay > 0 && termDelay <= 5) {
-          data.term_alert_class = 'staus-delayed';
-          data.term_delay = data.term_delay + lateLabel;
-          data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + term_delay);
-          data.slice_color.push('#ffd71c');
-        } else if (termDelay > 5) {
-          data.term_alert_class = 'status-late';
-          data.term_delay = data.term_delay + lateLabel;
-          data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + term_delay);
-          data.slice_color.push('#ff4328');
-        } else if (isNaN(termDelay)) {
-          data.term_alert_class = 'status-ontime';
-          data.slice_color.push('#45ff5d');
-          data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time));
+
+        if (!_.isUndefined(data.term_depart_time)) {
+          if (termDelay > 0 && termDelay <= 5) {
+            data.term_alert_class = 'staus-delayed';
+            data.term_delay = data.term_delay + lateLabel;
+            data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + term_delay);
+            data.slice_color.push('#ffd71c');
+          } else if (termDelay > 5) {
+            data.term_alert_class = 'status-late';
+            data.term_delay = data.term_delay + lateLabel;
+            data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + term_delay);
+            data.slice_color.push('#ff4328');
+          } else if (isNaN(termDelay) ) {
+            data.term_alert_class = 'status-ontime';
+            data.slice_color.push('#45ff5d');
+            data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time));
+          }
         }
     
       return {template: ich['trip-template'](data), data: data};
