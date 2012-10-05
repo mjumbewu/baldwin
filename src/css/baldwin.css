@@ -230,21 +230,20 @@ label, .btn {
 }
 
 
-.no-trips {display: inline-block; font-size: 1.4em; color:#ababab ; letter-spacing: -0.08em; margin: 20px 0  30px;}
+.no-trips {display: inline-block; font-size: 1.4em; color:#ababab ; letter-spacing: -0.08em; margin: 5px 0 0px;}
 
 /*////// FOOTER ///////*/
 
 .backstory {
 	margin-top: 40px;
 	padding: 10px 0 20px 0;
-	font-size: .8em;
-	line-height: 1.25em;
 	color: #ababab; 
 	border-color: #d4d4d4;
 	border-top: 5px solid rgba(95,95,95,.2);
 }
 
-.backstory p {margin: 8px 0;}
+.backstory p:first-child {font-size: 1em; line-height: 1.2em;}
+.backstory p {margin: 8px 0; font-size: .8em;}
 
 
 
