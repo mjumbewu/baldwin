@@ -18,6 +18,7 @@
     <link href="css/baldwin.css" rel="stylesheet">
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
+      <link href="css/baldwin-ie.css" rel="stylesheet">
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
@@ -32,13 +33,13 @@
     </script>
 
     <script id="route-template" type="text/html">
-        <button type="button" class="close remove-route"><i class="icon icon-close-lg"></i></button>
+        <button type="button" class="close remove-route btn-icon-txt">&times;</button>
         <h4>{{ start.name }} to {{ end.name }}</h4>
         <ol class="unstyled trip-list"></ol>
     </script>
 
     <script id="trip-template" type="text/html">
-      <li class="trip {{#Connection}}multi-leg{{/Connection}}">
+      <li class="trip {{trip_class}}">
         <div class="leg  {{ orig_alert_class }}">
           <span class="status {{ orig_label_class }}">
             <div class="timer"></div>
@@ -102,7 +103,7 @@
           <a class="brand" href="#">Baldwin (for SEPTA)</a>
 
           <p id="now" class="navbar-text"></p>
-          <a id="add-route-btn" class="btn btn-black" href="#add-route-box"><i class="icon-white icon-plus"></i></a>
+          <a id="add-route-btn" class="btn btn-icon-txt btn-black" href="#add-route">+</a>
         </div>
       </div>
     </div>
@@ -112,9 +113,9 @@
       <div class="results-box span9 empty">
         <ol id="route-list" class="unstyled"></ol>
       </div>
-      <div id="add-route-box" class="span3">
+      <div id="add-route" class="span3">
         <h4>Add a Route</h4>
-        <form id="add-route">
+        <form id="add-route-form">
           <div class="form-group">
             <label for="start-station">Start Station</label>
             <input type="text" id="start-station" name="start" class="station span3" placeholder="Where are you?" data-provide="typeahead">
@@ -129,7 +130,8 @@
 
     </div> <!-- /container -->
 
-    <div class="backstory"><p>Baldwin is named after Philadelphia's Baldwin Locomotive Works, at one time the world's largest steam engine manufacturer. Read more on <a href="http://en.m.wikipedia.org/wiki/Baldwin_Locomotive_Works">Wikipedia</a>.</p></div>
+    <div class="backstory"><p>Baldwin is named after Philadelphia's Baldwin Locomotive Works, at one time the world's largest steam engine manufacturer. Read more on <a href="http://en.m.wikipedia.org/wiki/Baldwin_Locomotive_Works">Wikipedia</a>. <a href="http://www.septa.org/site/nta.html">Learn more</a> about the data provided by SEPTA.</p>
+      <p> Baldwin was developed by <a href="https://twitter.com/atogle">Aaron Ogle</a>, designed by <a href="http://briantjacobs.com/">Brian Jacobs</a>.</p></div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
