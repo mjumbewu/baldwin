@@ -242,7 +242,7 @@ label, .btn {
 	border-top: 5px solid rgba(95,95,95,.2);
 }
 
-.backstory p:first-child {font-size: 1em; line-height: 1.2em;}
+.backstory p:first-child {font-size: 1em; line-height: 1.3em; margin-bottom: 12px;}
 .backstory p {margin: 8px 0; font-size: .8em;}
 
 
