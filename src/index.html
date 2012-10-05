@@ -21,11 +21,11 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <!-- <link rel="shortcut icon" href="../assets/ico/favicon.ico"> -->
-    <link rel="apple-touch-icon" sizes="144x144" href="ico/SEPTA_logo_1970s_144.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="ico/SEPTA_logo_1970s_114.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="ico/SEPTA_logo_1970s_72.png">
-    <link rel="apple-touch-icon" href="ico/SEPTA_logo_1970s_57.png">
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed"  sizes="144x144" href="ico/baldwin_logo_144.png">
+    <link rel="apple-touch-icon-precomposed"  sizes="114x114" href="ico/baldwin_logo_114.png">
+    <link rel="apple-touch-icon-precomposed"  sizes="72x72" href="ico/baldwin_logo_72.png">
+    <link rel="apple-touch-icon-precomposed"  href="ico/baldwin_logo_57.png">
 
     <script id="no-routes-template" type="text/html">
       <!--<li class="alert alert-block alert-info">Add some routes to see the upcoming trips!</li>-->
@@ -46,7 +46,7 @@
           </span>
           <div class="info">
             <span class="time-group">
-                <label>Departs</label>
+                <label>Departs <!-- in {{mins_to_dep}} mins --></label>
                 <div class="time">{{ orig_departure_time.time }}<span class="am-pm">{{ orig_departure_time.meridian }}</span></div>
             </span>
             <span class="time-group secondary">
@@ -129,7 +129,7 @@
 
     </div> <!-- /container -->
 
-    <footer class="backstory"><p>Baldwin is named after Philadelphia's Baldwin Locomotive Works, at one time the world's largest steam engine manufacturer. Read more on <a href="http://en.m.wikipedia.org/wiki/Baldwin_Locomotive_Works">Wikipedia</a>.</p></footer>
+    <div class="backstory"><p>Baldwin is named after Philadelphia's Baldwin Locomotive Works, at one time the world's largest steam engine manufacturer. Read more on <a href="http://en.m.wikipedia.org/wiki/Baldwin_Locomotive_Works">Wikipedia</a>.</p></div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
