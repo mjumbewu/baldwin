@@ -125,10 +125,10 @@ var Baldwin = Baldwin || {};
             //init pietimer
               $trip.template.find(".timer").each(function(i){
                 $(this).pietimer({
-                    seconds: $trip.data.mins_to_dep * 60,
+                    seconds: $trip.data.mins_to_dep[i] * 60,
                     sliceColor: $trip.data.slice_color[i],
                     // map time value from a range of 0 to 60 minutes to 0 to 360 degrees
-                    start: self.mapRange($trip.data.mins_to_dep, 0, 60, 0, 360)
+                    start: self.mapRange($trip.data.mins_to_dep[i], 0, 60, 0, 360)
                 }).pietimer('start');
                });
             });
@@ -190,40 +190,45 @@ var Baldwin = Baldwin || {};
       data.term_depart_time = this.splitTime(data.term_depart_time);
       data.term_arrival_time = this.splitTime(data.term_arrival_time);
 
+
       //default color and time to on-time departure
       data.slice_color = [];
-      data.mins_to_dep = this.minsToDepartureTime(data.orig_departure_time);
+      data.mins_to_dep = [];
 
-      if (origDelay > 0 && origDelay <= 5) {
-        data.orig_alert_class = 'status-delayed';
-        data.orig_delay = data.orig_delay + lateLabel;
-        data.mins_to_dep = data.mins_to_dep + origDelay;
-        data.slice_color.push('#ffd71c');
-      } else if (origDelay > 5) {
-        data.orig_alert_class = 'status-late';
-        data.orig_delay = data.orig_delay + lateLabel;
-        data.mins_to_dep = data.mins_to_dep + origDelay;
-        data.slice_color.push('#ff4328');
-      } else {
-        data.orig_alert_class = 'status-ontime';
-        data.slice_color.push('#45ff5d');
-      }
 
-      if (termDelay > 0 && termDelay <= 5) {
-        data.term_alert_class = 'staus-delayed';
-        data.term_delay = data.term_delay + lateLabel;
-        data.mins_to_dep = data.mins_to_dep + termDelay;
-        data.slice_color.push('#ffd71c');
-      } else if (termDelay > 5) {
-        data.term_alert_class = 'status-late';
-        data.term_delay = data.term_delay + lateLabel;
-        data.mins_to_dep = data.mins_to_dep + termDelay;
-        data.slice_color.push('#ff4328');
-      } else {
-        data.term_alert_class = 'status-ontime';
-        data.slice_color.push('#45ff5d');
-      }
+        if (origDelay > 0 && origDelay <= 5) {
+          data.orig_alert_class = 'status-delayed';
+          data.orig_delay = data.orig_delay + lateLabel;
+          data.mins_to_dep.push(this.minsToDepartureTime(data.orig_departure_time) + origDelay);
+          data.slice_color.push('#ffd71c');
 
+        } else if (origDelay > 5) {
+          data.orig_alert_class = 'status-late';
+          data.orig_delay = data.orig_delay + lateLabel;
+          data.mins_to_dep.push(this.minsToDepartureTime(data.orig_departure_time) + origDelay);
+          data.slice_color.push('#ff4328');
+        } else if (isNaN(origDelay)) {
+          data.orig_alert_class = 'status-ontime';
+          data.slice_color.push('#45ff5d');
+          data.mins_to_dep.push(this.minsToDepartureTime(data.orig_departure_time));
+        }
+        
+        if (termDelay > 0 && termDelay <= 5) {
+          data.term_alert_class = 'staus-delayed';
+          data.term_delay = data.term_delay + lateLabel;
+          data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + term_delay);
+          data.slice_color.push('#ffd71c');
+        } else if (termDelay > 5) {
+          data.term_alert_class = 'status-late';
+          data.term_delay = data.term_delay + lateLabel;
+          data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + term_delay);
+          data.slice_color.push('#ff4328');
+        } else if (isNaN(termDelay)) {
+          data.term_alert_class = 'status-ontime';
+          data.slice_color.push('#45ff5d');
+          data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time));
+        }
+    
       return {template: ich['trip-template'](data), data: data};
 
     },
