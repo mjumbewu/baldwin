@@ -246,7 +246,7 @@ label, .btn {
 .backstory p {margin: 8px 0; font-size: .8em; line-height: 1.2em;}
 
 
-
+/*////// DESKTOP ONLY ///////*/
  @media (min-width: 979px) {
 
   .content {
@@ -255,10 +255,12 @@ label, .btn {
 
 }
 
+/*////// EVERYTHING BUT DESKTOP ///////*/
 @media (max-width: 767px) {
 	#add-route-form input {width: 100%;}
 }
 
+/*////// MOBILE ///////*/
 @media (max-width: 480px) {
 
 	.leg .train-line {
@@ -271,7 +273,12 @@ label, .btn {
 	.leg .info {margin-left: 60px;	min-height: 90px;}
 	.leg .status {width: 60px; min-height: 90px;}
 	.leg .status label {font-size: .9em; padding: 0 3px; line-height: 1.1em;}
-	.leg .status .timer {margin-top: 10px; margin-bottom: 10px; width: 30px; height: 30px;}
+	.leg .status .timer {
+		margin-top: 10px; 
+		margin-bottom: 10px; 
+		width: 30px; 
+		height: 30px;
+	}
 	.leg .time-group {font-size: 1.1em; }
 	.leg .time-group label {margin-bottom: 2px;}
 
@@ -291,14 +298,30 @@ label, .btn {
 		-moz-box-shadow: 0px 1px #000;
 		-webkit-box-shadow: 0px 1px #000;
 		box-shadow: 0px 1px 2px #000;
+
+
+
+
 	}
 
 }
 
 
+
+/*////// ALL RETINA ///////*/
 @media (-webkit-min-device-pixel-ratio: 1.5), /* Webkit */
        (min-resolution: 144dpi)             /* Everyone else, 1.5x96 */ {
-       	/* high rez*/
+
+	.leg .status .timer {
+		width: 44px; 
+		height: 44px; 
+		margin: -5px auto;
+		-ms-transform: scale(.5); 
+		-webkit-transform: scale(.5); 
+		-moz-transform: scale(.5); 
+		transform: scale(.5);
+	}
+
 	.navbar .brand {
 		text-indent: -9999em;
 		background: url(img/logo-baldwin@2x.png) 50% 50% no-repeat;
@@ -308,7 +331,15 @@ label, .btn {
 		width: 170px;
 		height: 15px;
 	}
+	#add-route-btn {top: 3px}
+}
 
+/*////// MOBILE RETINA ///////*/
+@media (max-width: 480px) and 
+		(-webkit-min-device-pixel-ratio: 1.5),/* Webkit */
+       (min-resolution: 144dpi)  /* Everyone else, 1.5x96 */
+       {
+       	/* high rez*/
 	/* double size the canvas timer for retina then scale back down */
 	.leg .status .timer {
 		width: 60px; 
@@ -320,6 +351,5 @@ label, .btn {
 		transform: scale(.5);
 	}
 
-	#add-route-btn {top: 3px}
 
 }
