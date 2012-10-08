@@ -19,7 +19,9 @@ var Baldwin = Baldwin || {};
 
     initialize: function() {
       // Get the current location
-      //navigator.geolocation.getCurrentPosition(_.bind(this.setPosition, this));
+      if(navigator && navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(_.bind(this.setPosition, this));
+      }
     },
 
     comparator: function(route) {
@@ -230,7 +232,7 @@ var Baldwin = Baldwin || {};
             data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time));
           }
         }
-    
+
       return {template: ich['trip-template'](data), data: data};
 
     },
