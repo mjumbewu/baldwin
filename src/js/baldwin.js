@@ -64,7 +64,6 @@ var Baldwin = Baldwin || {};
 
       if (this.collection.size() === 0) {
         this.$el.closest('.results-box').addClass('empty');
-        this.$el.html(ich['no-routes-template']());
       } else {
         this.$el.closest('.results-box').removeClass('empty');
         this.$el.empty();
