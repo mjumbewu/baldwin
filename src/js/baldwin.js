@@ -62,11 +62,12 @@ var Baldwin = Baldwin || {};
       var self = this;
       this.routeViews = {};
 
+      // Empty the list first
+      this.$el.empty();
       if (this.collection.size() === 0) {
         this.$el.closest('.results-box').addClass('empty');
       } else {
         this.$el.closest('.results-box').removeClass('empty');
-        this.$el.empty();
         this.collection.each(function(model){
           self.routeViews[model.cid] = new B.RouteView({ model: model });
           self.$el.append(self.routeViews[model.cid].render().$el);
