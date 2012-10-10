@@ -43,7 +43,7 @@
           </span>
           <div class="info">
             <span class="time-group">
-                <label>Departs <!-- in {{mins_to_dep}} mins --></label>
+                <label>Departs</label>
                 <div class="time">{{ orig_departure_time.time }}<span class="am-pm">{{ orig_departure_time.meridian }}</span></div>
             </span>
             <span class="time-group secondary">
@@ -140,5 +140,19 @@
 
     <script src="js/stations.js"></script>
     <script src="js/baldwin.js"></script>
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-35454304-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
   </body>
 </html>
