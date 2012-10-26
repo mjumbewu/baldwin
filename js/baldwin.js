@@ -144,39 +144,25 @@ var Baldwin = Baldwin || {};
       });
     },
 
-    splitTime: function(timeStr) {
+    parseTime: function(timeStr) {
       if (!_.isUndefined(timeStr)) {
-        timeStr = $.trim(timeStr);
+        var now = moment();
+        var time = moment(timeStr, "hhmma")
+                              .month(now.month())
+                              .date(now.date())
+                              .year(now.year());
+
+        //set date to tomorrow in case of rollover
+        if (now.hours() > time.hours()) {
+          time.add('days',1);
+        }
+
         return {
-            meridian: timeStr.slice(-2).toLowerCase(),
-            hours: timeStr.slice(0, timeStr.indexOf(':')),
-            minutes: timeStr.slice(timeStr.indexOf(':')+1, -2),
-            time: timeStr.slice(0, -2)
+            time: time.format('h:mm'),
+            meridian: time.format('a'),
+            diff: time.diff(now, 'minutes')
         };
       }
-    },
-
-    minsToDepartureTime: function(time) {
-      var date = new Date();
-      //account for DST
-      date.toLocaleString();
-      var calcDate = new Date();
-      //account for DST
-      calcDate.toLocaleString();
-
-      // parse 12hr time string into 24hr.
-      // KNOWN ISSUE: This will need to take into account rollover into the next day
-      if (time.meridian=='pm') {
-          time.hours = (time.hours=='12') ? '12' : parseInt(time.hours, 10)+12 ;
-      }
-      else if(time.hours.length<2) {
-          time.hours = '0' + time.hours;
-      }
-      //pull parsed string into time obj
-      calcDate.setHours(time.hours);
-      calcDate.setMinutes(time.minutes);
-      //return time compareed to now, converted to minutes from milliseconds
-      return Math.floor(((calcDate-date)/1000)/60);
     },
 
     renderTrip: function(trip) {
@@ -185,11 +171,11 @@ var Baldwin = Baldwin || {};
           termDelay = parseInt(data.term_delay, 10),
           lateLabel = " late";
 
-      //split times for styling and parsability
-      data.orig_departure_time = this.splitTime(data.orig_departure_time);
-      data.orig_arrival_time = this.splitTime(data.orig_arrival_time);
-      data.term_depart_time = this.splitTime(data.term_depart_time);
-      data.term_arrival_time = this.splitTime(data.term_arrival_time);
+      //process times for styling and calcuation
+      data.orig_departure_time = this.parseTime(data.orig_departure_time);
+      data.orig_arrival_time = this.parseTime(data.orig_arrival_time);
+      data.term_depart_time = this.parseTime(data.term_depart_time);
+      data.term_arrival_time = this.parseTime(data.term_arrival_time);
 
       //default color and time to on-time departure
       data.slice_color = [];
@@ -202,34 +188,34 @@ var Baldwin = Baldwin || {};
         if (origDelay > 0 && origDelay <= 5) {
           data.orig_alert_class = 'status-delayed';
           data.orig_delay = data.orig_delay + lateLabel;
-          data.mins_to_dep.push(this.minsToDepartureTime(data.orig_departure_time) + origDelay);
+          data.mins_to_dep.push(data.orig_departure_time.diff + origDelay);
           data.slice_color.push('#ffd71c');
         } else if (origDelay > 5) {
           data.orig_alert_class = 'status-late';
           data.orig_delay = data.orig_delay + lateLabel;
-          data.mins_to_dep.push(this.minsToDepartureTime(data.orig_departure_time) + origDelay);
+          data.mins_to_dep.push(data.orig_departure_time.diff + origDelay);
           data.slice_color.push('#ff4328');
         } else if (isNaN(origDelay)) {
           data.orig_alert_class = 'status-ontime';
           data.slice_color.push('#45ff5d');
-          data.mins_to_dep.push(this.minsToDepartureTime(data.orig_departure_time));
+          data.mins_to_dep.push(data.orig_departure_time.diff);
         }
 
         if (!_.isUndefined(data.term_depart_time)) {
           if (termDelay > 0 && termDelay <= 5) {
             data.term_alert_class = 'status-delayed';
             data.term_delay = data.term_delay + lateLabel;
-            data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + termDelay);
+            data.mins_to_dep.push(data.term_depart_time.diff + termDelay);
             data.slice_color.push('#ffd71c');
           } else if (termDelay > 5) {
             data.term_alert_class = 'status-late';
             data.term_delay = data.term_delay + lateLabel;
-            data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time) + termDelay);
+            data.mins_to_dep.push(data.term_depart_time.diff + termDelay);
             data.slice_color.push('#ff4328');
           } else if (isNaN(termDelay)) {
             data.term_alert_class = 'status-ontime';
             data.slice_color.push('#45ff5d');
-            data.mins_to_dep.push(this.minsToDepartureTime(data.term_depart_time));
+            data.mins_to_dep.push(data.term_depart_time.diff);
           }
         }
 

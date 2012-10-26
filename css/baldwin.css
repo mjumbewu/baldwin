@@ -230,7 +230,7 @@ label, .btn {
 }
 
 
-.no-trips {display: inline-block; font-size: 1.4em; color:#ababab ; letter-spacing: -0.08em; margin: 5px 0 0px;}
+.trip-alert {display: inline-block; font-size: 1.4em; color:#ababab ; letter-spacing: -0.08em; margin: 5px 0 0px;}
 
 /*////// FOOTER ///////*/
 
