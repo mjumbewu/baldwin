@@ -53,13 +53,12 @@ var Baldwin = Baldwin || {};
 
     initialize: function(){
       this.collection.on('reset', this.render, this);
-      this.collection.on('add', this.render, this);
+      this.collection.on('add', this.add, this);
       this.collection.on('remove', this.remove, this);
 
       this.routeViews = {};
     },
     render: function(){
-      var self = this;
       this.routeViews = {};
 
       // Empty the list first
@@ -67,11 +66,9 @@ var Baldwin = Baldwin || {};
       if (this.collection.size() === 0) {
         this.$el.closest('.results-box').addClass('empty');
       } else {
-        this.$el.closest('.results-box').removeClass('empty');
         this.collection.each(function(model){
-          self.routeViews[model.cid] = new B.RouteView({ model: model });
-          self.$el.append(self.routeViews[model.cid].render().$el);
-        });
+          this.add(model);
+        }, this);
       }
 
       return this;
@@ -80,6 +77,16 @@ var Baldwin = Baldwin || {};
     remove: function(model) {
       this.routeViews[model.cid].remove();
       delete this.routeViews[model.cid];
+
+      if (this.collection.size() === 0) {
+        this.$el.closest('.results-box').addClass('empty');
+      }
+    },
+
+    add: function(model, collection, options) {
+      this.$el.closest('.results-box').removeClass('empty');
+      this.routeViews[model.cid] = new B.RouteView({ model: model });
+      this.$el.append(this.routeViews[model.cid].render().$el);
     }
   });
 
