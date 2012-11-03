@@ -54,7 +54,7 @@ var Baldwin = Baldwin || {};
     initialize: function(){
       this.collection.on('reset', this.render, this);
       this.collection.on('add', this.render, this);
-      this.collection.on('remove', this.render, this);
+      this.collection.on('remove', this.remove, this);
 
       this.routeViews = {};
     },
@@ -75,6 +75,11 @@ var Baldwin = Baldwin || {};
       }
 
       return this;
+    },
+
+    remove: function(model) {
+      this.routeViews[model.cid].remove();
+      delete this.routeViews[model.cid];
     }
   });
 
@@ -97,6 +102,10 @@ var Baldwin = Baldwin || {};
       this.renderTrips();
 
       return this;
+    },
+
+    remove: function() {
+      this.$el.remove();
     },
 
     mapRange: function(value, low1, high1, low2, high2) {
@@ -181,7 +190,7 @@ var Baldwin = Baldwin || {};
       data.slice_color = [];
       data.mins_to_dep = [];
 
-        if (data.isdirect == "false") {
+        if (data.isdirect === 'false') {
           data.trip_class = 'multi-leg';
         }
 
@@ -269,29 +278,28 @@ var Baldwin = Baldwin || {};
     }
   });
 
-  var routeCollection = new B.RouteList(),
-      addRouteView = new B.AddRouteView({
-        el: '#add-route-form',
-        collection: routeCollection
-      }),
-      routeListView = new B.RouteListView({
-        el: '#route-list',
-        collection: routeCollection
-      });
-
-
   $(function(){
+    var routeCollection = new B.RouteList(),
+        addRouteView = new B.AddRouteView({
+          el: '#add-route-form',
+          collection: routeCollection
+        }),
+        routeListView = new B.RouteListView({
+          el: '#route-list',
+          collection: routeCollection
+        });
+
     routeCollection.fetch();
+
+    $('.station').typeahead({source: _.pluck(B.stations, 'name') });
+
+    // init pietimer
+    $('.timer').each(function(){
+      $(this).pietimer({
+        seconds: 5,
+        sliceColor: data.sliceColor
+      }).pietimer('start');
+    });
   });
-
-  $('.station').typeahead({source: _.pluck(B.stations, 'name') });
-
-      //init pietimer
-   $('.timer').each(function(){
-        $(this).pietimer({
-            seconds: 5,
-            sliceColor: data.sliceColor
-        }).pietimer('start');
-   });
 
 })(Baldwin, jQuery);
