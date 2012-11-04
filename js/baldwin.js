@@ -13,7 +13,8 @@ var Baldwin = Baldwin || {};
 
       if (!_.isEqual(this.position, p)) {
         this.position = p;
-        this.sort();
+        this.sort({silent: true});
+        this.trigger('sort');
       }
     },
 
@@ -53,13 +54,14 @@ var Baldwin = Baldwin || {};
 
     initialize: function(){
       this.collection.on('reset', this.render, this);
-      this.collection.on('add', this.render, this);
-      this.collection.on('remove', this.render, this);
+      this.collection.on('add', this.add, this);
+      this.collection.on('remove', this.remove, this);
+      this.collection.on('sort', this.sort, this);
 
       this.routeViews = {};
     },
+
     render: function(){
-      var self = this;
       this.routeViews = {};
 
       // Empty the list first
@@ -67,14 +69,41 @@ var Baldwin = Baldwin || {};
       if (this.collection.size() === 0) {
         this.$el.closest('.results-box').addClass('empty');
       } else {
-        this.$el.closest('.results-box').removeClass('empty');
         this.collection.each(function(model){
-          self.routeViews[model.cid] = new B.RouteView({ model: model });
-          self.$el.append(self.routeViews[model.cid].render().$el);
-        });
+          this.add(model);
+        }, this);
       }
 
       return this;
+    },
+
+    remove: function(model) {
+      this.routeViews[model.cid].remove();
+      delete this.routeViews[model.cid];
+
+      if (this.collection.size() === 0) {
+        this.$el.closest('.results-box').addClass('empty');
+      }
+    },
+
+    add: function(model, collection, options) {
+      this.$el.closest('.results-box').removeClass('empty');
+      this.routeViews[model.cid] = new B.RouteView({ model: model });
+
+      if(options && options.index === 0) {
+        this.$el.prepend(this.routeViews[model.cid].render().$el);
+      } else if(options && options.index > 0) {
+        this.$('.trip-group:nth-child(' + options.index + ')')
+          .after(this.routeViews[model.cid].render().$el);
+      } else {
+        this.$el.append(this.routeViews[model.cid].render().$el);
+      }
+    },
+
+    sort: function() {
+      this.collection.each(function(model){
+        this.routeViews[model.cid].$el.appendTo(this.$el);
+      }, this);
     }
   });
 
@@ -97,6 +126,10 @@ var Baldwin = Baldwin || {};
       this.renderTrips();
 
       return this;
+    },
+
+    remove: function() {
+      this.$el.remove();
     },
 
     mapRange: function(value, low1, high1, low2, high2) {
@@ -181,7 +214,7 @@ var Baldwin = Baldwin || {};
       data.slice_color = [];
       data.mins_to_dep = [];
 
-        if (data.isdirect == "false") {
+        if (data.isdirect === 'false') {
           data.trip_class = 'multi-leg';
         }
 
@@ -269,29 +302,28 @@ var Baldwin = Baldwin || {};
     }
   });
 
-  var routeCollection = new B.RouteList(),
-      addRouteView = new B.AddRouteView({
-        el: '#add-route-form',
-        collection: routeCollection
-      }),
-      routeListView = new B.RouteListView({
-        el: '#route-list',
-        collection: routeCollection
-      });
-
-
   $(function(){
+    var routeCollection = new B.RouteList(),
+        addRouteView = new B.AddRouteView({
+          el: '#add-route-form',
+          collection: routeCollection
+        }),
+        routeListView = new B.RouteListView({
+          el: '#route-list',
+          collection: routeCollection
+        });
+
     routeCollection.fetch();
+
+    $('.station').typeahead({source: _.pluck(B.stations, 'name') });
+
+    // init pietimer
+    $('.timer').each(function(){
+      $(this).pietimer({
+        seconds: 5,
+        sliceColor: data.sliceColor
+      }).pietimer('start');
+    });
   });
-
-  $('.station').typeahead({source: _.pluck(B.stations, 'name') });
-
-      //init pietimer
-   $('.timer').each(function(){
-        $(this).pietimer({
-            seconds: 5,
-            sliceColor: data.sliceColor
-        }).pietimer('start');
-   });
 
 })(Baldwin, jQuery);
