@@ -86,7 +86,15 @@ var Baldwin = Baldwin || {};
     add: function(model, collection, options) {
       this.$el.closest('.results-box').removeClass('empty');
       this.routeViews[model.cid] = new B.RouteView({ model: model });
-      this.$el.append(this.routeViews[model.cid].render().$el);
+
+      if(options && options.index === 0) {
+        this.$el.prepend(this.routeViews[model.cid].render().$el);
+      } else if(options && options.index > 0) {
+        this.$('.trip-group:nth-child(' + options.index + ')')
+          .after(this.routeViews[model.cid].render().$el);
+      } else {
+        this.$el.append(this.routeViews[model.cid].render().$el);
+      }
     }
   });
 
