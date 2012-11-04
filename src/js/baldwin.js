@@ -13,7 +13,8 @@ var Baldwin = Baldwin || {};
 
       if (!_.isEqual(this.position, p)) {
         this.position = p;
-        this.sort();
+        this.sort({silent: true});
+        this.trigger('sort');
       }
     },
 
@@ -55,9 +56,11 @@ var Baldwin = Baldwin || {};
       this.collection.on('reset', this.render, this);
       this.collection.on('add', this.add, this);
       this.collection.on('remove', this.remove, this);
+      this.collection.on('sort', this.sort, this);
 
       this.routeViews = {};
     },
+
     render: function(){
       this.routeViews = {};
 
@@ -95,6 +98,12 @@ var Baldwin = Baldwin || {};
       } else {
         this.$el.append(this.routeViews[model.cid].render().$el);
       }
+    },
+
+    sort: function() {
+      this.collection.each(function(model){
+        this.routeViews[model.cid].$el.appendTo(this.$el);
+      }, this);
     }
   });
 
