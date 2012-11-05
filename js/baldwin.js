@@ -218,12 +218,12 @@ var Baldwin = Baldwin || {};
           data.trip_class = 'multi-leg';
         }
 
-        if (origDelay > 0 && origDelay <= 5) {
+        if (origDelay > 0 && origDelay < 10) {
           data.orig_alert_class = 'status-delayed';
           data.orig_delay = data.orig_delay + lateLabel;
           data.mins_to_dep.push(data.orig_departure_time.diff + origDelay);
           data.slice_color.push('#ffd71c');
-        } else if (origDelay > 5) {
+        } else if (origDelay >= 10) {
           data.orig_alert_class = 'status-late';
           data.orig_delay = data.orig_delay + lateLabel;
           data.mins_to_dep.push(data.orig_departure_time.diff + origDelay);
@@ -235,12 +235,12 @@ var Baldwin = Baldwin || {};
         }
 
         if (!_.isUndefined(data.term_depart_time)) {
-          if (termDelay > 0 && termDelay <= 5) {
+          if (termDelay > 0 && termDelay < 10) {
             data.term_alert_class = 'status-delayed';
             data.term_delay = data.term_delay + lateLabel;
             data.mins_to_dep.push(data.term_depart_time.diff + termDelay);
             data.slice_color.push('#ffd71c');
-          } else if (termDelay > 5) {
+          } else if (termDelay >= 10) {
             data.term_alert_class = 'status-late';
             data.term_delay = data.term_delay + lateLabel;
             data.mins_to_dep.push(data.term_depart_time.diff + termDelay);
