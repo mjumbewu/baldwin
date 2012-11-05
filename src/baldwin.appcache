@@ -1,0 +1,41 @@
+CACHE MANIFEST
+
+#version 1.0 11-4-2012
+
+CACHE:
+
+#images
+
+
+#internal HTML documents
+
+
+#style sheets
+css/baldwin.css
+lib/bootstrap-2.1.1/css/bootstrap-responsive.css
+lib/bootstrap-2.1.1/css/bootstrap.min.css
+http://fonts.googleapis.com/css?family=Open+Sans:600italic,600,700|Open+Sans+Condensed:700
+
+#style sheet images
+css/img/icon-x-lg.png
+css/img/logo-baldwin.png
+css/img/logo-baldwin@2x.png
+css/img/stripes.png
+css/img/texture-dark.png
+css/img/texture-light.png
+lib/bootstrap-2.1.1/img/glyphicons-halflings-white.png
+lib/bootstrap-2.1.1/img/glyphicons-halflings.png
+
+#javascript files
+http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js
+http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js
+http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js
+http://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.0/backbone.localStorage-min.js
+http://cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.0/moment.min.js
+lib/bootstrap-2.1.1/js/bootstrap.min.js
+lib/ICanHaz-0.10.min.js
+lib/pietimer/jquery.pietimer.min.js
+dist/baldwin.min.js
+
+NETWORK:
+*
