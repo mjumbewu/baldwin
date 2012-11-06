@@ -8,7 +8,7 @@ CACHE:
 
 
 #internal HTML documents
-
+index.html
 
 #style sheets
 css/baldwin.css
