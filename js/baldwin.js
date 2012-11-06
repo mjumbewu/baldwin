@@ -272,7 +272,7 @@ var Baldwin = Baldwin || {};
   B.AddRouteView = Backbone.View.extend({
     events: {
       'submit': 'addRoute',
-      'blur input': 'onBlur'
+      'change input': 'onChange'
     },
 
     getAttrs: function() {
@@ -286,7 +286,7 @@ var Baldwin = Baldwin || {};
       return attrs;
     },
 
-    onBlur: function(evt) {
+    onChange: function(evt) {
       var $target = $(evt.target);
 
       if(_.find(B.stations, function(s) { return s.name === $target.val(); })) {
