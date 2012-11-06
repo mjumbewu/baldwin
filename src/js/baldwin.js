@@ -271,7 +271,8 @@ var Baldwin = Baldwin || {};
   // View for adding a trip to the collection
   B.AddRouteView = Backbone.View.extend({
     events: {
-      'submit': 'addRoute'
+      'submit': 'addRoute',
+      'blur input': 'onBlur'
     },
 
     getAttrs: function() {
@@ -285,6 +286,16 @@ var Baldwin = Baldwin || {};
       return attrs;
     },
 
+    onBlur: function(evt) {
+      var $target = $(evt.target);
+
+      if(_.find(B.stations, function(s) { return s.name === $target.val(); })) {
+        $target.removeClass('error');
+      } else {
+        $target.addClass('error');
+      }
+    },
+
     addRoute: function(evt) {
       evt.preventDefault();
 
@@ -294,11 +305,15 @@ var Baldwin = Baldwin || {};
             end:   _.find(B.stations, function(s) { return s.name === formAttrs.end; })
           };
 
-      // Reset the form
-      this.el.reset();
+      if (data.start && data.end && data.start !== data.end) {
+        // Reset the form
+        this.el.reset();
 
-      // Save the route to local storage
-      this.collection.create(data);
+        this.$('input').removeClass('error');
+
+        // Save the route to local storage
+        this.collection.create(data);
+      }
     }
   });
 
