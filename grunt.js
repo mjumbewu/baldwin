@@ -2,10 +2,17 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    meta: {
+      banner: '#version <%= grunt.template.today() %>'
+    },
     concat: {
       dist: {
         src: ['src/js/stations.js', 'src/js/baldwin.js'],
         dest: 'src/dist/baldwin.js'
+      },
+      appcache: {
+        src: ['src/baldwin.appcache.template', '<banner:meta.banner>'],
+        dest: 'src/baldwin.appcache'
       }
     },
     min: {
@@ -18,7 +25,7 @@ module.exports = function(grunt) {
       files: ['src/js/baldwin.js']
     },
     watch: {
-      files: '<config:lint.files>',
+      files: ['src/js/baldwin.js', 'src/baldwin.appcache.template'],
       tasks: 'default'
     },
     jshint: {
